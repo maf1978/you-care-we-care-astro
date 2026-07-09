@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+
+const guides = [
+  {
+    href: '/pricing/tree-removal-cost-plant-city',
+    label: 'How much will it cost?',
+    title: 'Tree Removal Cost in Plant City',
+    desc: 'What drives pricing for removal, trimming, and stump grinding.',
+  },
+  {
+    href: '/compare/local-vs-national-tree-service',
+    label: 'Why choose you?',
+    title: 'Local vs National Tree Companies',
+    desc: 'Accountability, response time, and cleanup compared side by side.',
+  },
+  {
+    href: '/problems/leaning-tree-vs-storm-damage',
+    label: "What's causing my problem?",
+    title: 'Leaning Tree vs Storm Damage',
+    desc: 'Decide if you should call now or schedule a free estimate.',
+  },
+];
+---
+
+<BaseLayout
+  title={`Tree Care Guides & Decision Pages | ${site.shortName}`}
+  description="Pricing, comparison, and problem guides that help Plant City homeowners decide before they call."
+>
+  <section class="bg-[#1C1D17] text-[#EEEDEA] py-20">
+    <div class="container-site text-center max-w-3xl">
+      <h1 class="text-4xl lg:text-6xl font-heading mb-6 text-white">GUIDES</h1>
+      <p class="text-xl text-white/90">
+        Local SEO that helps people decide — not hundreds of thin pages.
+      </p>
+    </div>
+  </section>
+
+  <section class="py-20">
+    <div class="container-site grid md:grid-cols-3 gap-8">
+      {
+        guides.map((g) => (
+          <a
+            href={g.href}
+            class="bg-card border border-border rounded-xl p-8 hover:border-primary transition-colors shadow-sm"
+          >
+            <p class="text-primary font-bold uppercase text-sm mb-2">{g.label}</p>
+            <h2 class="text-2xl font-heading mb-3">{g.title}</h2>
+            <p class="text-muted-foreground">{g.desc}</p>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

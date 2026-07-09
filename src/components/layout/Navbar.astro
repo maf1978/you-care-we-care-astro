@@ -1,0 +1,179 @@
+---
+import { Phone, Menu, X, ChevronDown } from '@lucide/astro';
+import { site, services, locations } from '../../data/site';
+
+const navServices = services;
+const navAreas = locations.filter((l) => !l.isHq);
+---
+
+<header
+  class="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border"
+>
+  <div class="container-site h-20 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-2" data-nav-close>
+      <img src={site.logo} alt={`${site.name} Logo`} class="h-16" width="160" height="64" />
+    </a>
+
+    <nav class="hidden lg:flex items-center gap-8">
+      <a href="/" class="text-sm font-semibold hover:text-primary transition-colors">Home</a>
+
+      <div class="relative group">
+        <a
+          href="/services"
+          class="text-sm font-semibold hover:text-primary transition-colors inline-flex items-center gap-1"
+        >
+          Services <ChevronDown class="h-4 w-4" />
+        </a>
+        <div
+          class="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-opacity absolute top-full left-0 w-64 bg-card border border-border shadow-lg rounded-md py-2 mt-1"
+        >
+          {
+            navServices.map((service) => (
+              <a
+                href={`/services/${service.slug}`}
+                class="block px-4 py-2 text-sm hover:bg-muted hover:text-primary transition-colors"
+              >
+                {service.title}
+              </a>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="relative group">
+        <a
+          href="/areas"
+          class="text-sm font-semibold hover:text-primary transition-colors inline-flex items-center gap-1"
+        >
+          Service Areas <ChevronDown class="h-4 w-4" />
+        </a>
+        <div
+          class="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-opacity absolute top-full left-0 w-48 bg-card border border-border shadow-lg rounded-md py-2 mt-1"
+        >
+          {
+            navAreas.map((area) => (
+              <a
+                href={`/areas/${area.slug}`}
+                class="block px-4 py-2 text-sm hover:bg-muted hover:text-primary transition-colors"
+              >
+                {area.city}
+              </a>
+            ))
+          }
+        </div>
+      </div>
+
+      <a href="/about" class="text-sm font-semibold hover:text-primary transition-colors">About</a>
+      <a href="/reviews" class="text-sm font-semibold hover:text-primary transition-colors">Reviews</a>
+      <a href="/resources" class="text-sm font-semibold hover:text-primary transition-colors">Guides</a>
+    </nav>
+
+    <div class="hidden lg:flex items-center gap-4">
+      <a
+        href={`tel:${site.phoneTel}`}
+        class="flex items-center gap-2 font-bold text-lg text-primary hover:text-primary/80 transition-colors"
+      >
+        <Phone class="h-5 w-5" />
+        {site.phone}
+      </a>
+      <a href="/contact" class="btn btn-md btn-primary">Get a Fast Quote</a>
+    </div>
+
+    <div class="lg:hidden flex items-center gap-4">
+      <a href={`tel:${site.phoneTel}`} class="text-primary p-2" aria-label="Call now">
+        <Phone class="h-6 w-6" />
+      </a>
+      <button
+        type="button"
+        class="p-2"
+        id="mobile-menu-toggle"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        aria-label="Toggle menu"
+      >
+        <Menu class="h-6 w-6 menu-open-icon" />
+        <X class="h-6 w-6 menu-close-icon hidden" />
+      </button>
+    </div>
+  </div>
+
+  <div
+    id="mobile-menu"
+    class="hidden lg:hidden absolute top-20 left-0 w-full bg-background border-b border-border shadow-lg max-h-[calc(100vh-5rem)] overflow-y-auto"
+  >
+    <div class="flex flex-col p-4 gap-4">
+      <a href="/" class="text-lg font-semibold py-2 border-b border-border" data-nav-close>Home</a>
+
+      <div class="py-2 border-b border-border">
+        <a href="/services" class="text-lg font-semibold mb-2 block" data-nav-close>Services</a>
+        <div class="pl-4 flex flex-col gap-2">
+          {
+            navServices.map((service) => (
+              <a
+                href={`/services/${service.slug}`}
+                class="text-muted-foreground"
+                data-nav-close
+              >
+                {service.title}
+              </a>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="py-2 border-b border-border">
+        <a href="/areas" class="text-lg font-semibold mb-2 block" data-nav-close>Service Areas</a>
+        <div class="pl-4 flex flex-col gap-2">
+          {
+            locations.map((area) => (
+              <a href={`/areas/${area.slug}`} class="text-muted-foreground" data-nav-close>
+                {area.city}
+                {area.isHq ? ' (HQ)' : ''}
+              </a>
+            ))
+          }
+        </div>
+      </div>
+
+      <a href="/about" class="text-lg font-semibold py-2 border-b border-border" data-nav-close>About</a>
+      <a href="/reviews" class="text-lg font-semibold py-2 border-b border-border" data-nav-close>Reviews</a>
+      <a href="/resources" class="text-lg font-semibold py-2 border-b border-border" data-nav-close>Guides</a>
+      <a href="/contact" class="text-lg font-semibold py-2 border-b border-border" data-nav-close>Contact</a>
+    </div>
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById('mobile-menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  const openIcon = toggle?.querySelector('.menu-open-icon');
+  const closeIcon = toggle?.querySelector('.menu-close-icon');
+
+  function setOpen(open: boolean) {
+    menu?.classList.toggle('hidden', !open);
+    openIcon?.classList.toggle('hidden', open);
+    closeIcon?.classList.toggle('hidden', !open);
+    toggle?.setAttribute('aria-expanded', String(open));
+    if (open) {
+      const firstLink = menu?.querySelector<HTMLElement>('a');
+      firstLink?.focus();
+    } else {
+      toggle?.focus();
+    }
+  }
+
+  toggle?.addEventListener('click', () => {
+    const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+    setOpen(!isOpen);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') {
+      setOpen(false);
+    }
+  });
+
+  document.querySelectorAll('[data-nav-close]').forEach((el) => {
+    el.addEventListener('click', () => setOpen(false));
+  });
+</script>

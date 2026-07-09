@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+---
+
+<BaseLayout
+  title={`About ${site.name} | Plant City Tree Service`}
+  description="Led by owner CJ, You Care We Care Tree Service is Plant City's trusted choice for fast, professional tree removal and trimming."
+  schema={{
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}/` },
+      { '@type': 'ListItem', position: 2, name: 'About', item: `${site.url}/about` },
+    ],
+  }}
+>
+  <section class="bg-[#1C1D17] text-[#EEEDEA] py-20">
+    <div class="container-site text-center">
+      <h1 class="text-4xl lg:text-6xl font-heading mb-6 text-white">ABOUT US</h1>
+    </div>
+  </section>
+  <section class="py-20">
+    <div class="container-site max-w-4xl text-center">
+      <img
+        src={site.teamImage}
+        alt="Team"
+        class="rounded-xl mx-auto mb-12 shadow-xl w-full max-w-3xl"
+        width="900"
+        height="600"
+      />
+      <h2 class="text-3xl font-heading mb-6">You Care, We Care — For Every Tree</h2>
+      <p class="text-xl text-muted-foreground mb-6">
+        Led by owner CJ, You Care We Care Tree Service is Plant City's trusted choice for fast,
+        professional tree removal and trimming. We believe in doing the job right the first time,
+        communicating clearly, and leaving your property spotless.
+      </p>
+      <p class="text-lg text-muted-foreground mb-4">
+        {site.credentials.license}<br />
+        {site.credentials.insurance}
+      </p>
+      <p class="text-sm text-muted-foreground mb-8">{site.credentials.note}</p>
+      <a href="/contact" class="btn btn-lg btn-primary">Contact Us Today</a>
+    </div>
+  </section>
+</BaseLayout>

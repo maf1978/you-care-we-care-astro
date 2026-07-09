@@ -1,0 +1,502 @@
+---
+import { Star, CheckCircle2, Phone, ShieldCheck, Clock, MapPin, Trees } from '@lucide/astro';
+import { site, services, reviews, faqs, locations, recentJobs } from '../data/site';
+import QuoteForm from '../components/forms/QuoteForm.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const featuredServices = services.filter((s) => s.featured).slice(0, 4);
+const homeReviews = reviews.slice(0, 3);
+const areaPreview = locations.slice(0, 8);
+
+const localBusinessSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'HomeAndConstructionBusiness',
+  name: site.name,
+  image: site.ogImage,
+  '@id': `${site.url}/`,
+  url: site.url,
+  telephone: site.phoneTel,
+  email: site.email,
+  priceRange: site.priceRange,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.address.street,
+    addressLocality: site.address.city,
+    addressRegion: site.address.state,
+    postalCode: site.address.zip,
+    addressCountry: site.address.country,
+  },
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: site.hours.schema.days,
+      opens: site.hours.schema.opens,
+      closes: site.hours.schema.closes,
+      description: site.hours.label,
+    },
+  ],
+  areaServed: locations.map((l) => ({ '@type': 'City', name: l.city })),
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: site.rating.value,
+    reviewCount: String(site.rating.count),
+  },
+  sameAs: [site.facebookUrl, site.googleBusinessUrl],
+  additionalType: 'https://www.productontology.org/id/Tree_care',
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+  })),
+};
+---
+
+<BaseLayout schema={[localBusinessSchema, faqSchema]}>
+  <!-- Hero -->
+  <section class="relative bg-[#1C1D17] text-[#EEEDEA] pt-20 pb-32 lg:pt-32 lg:pb-48 overflow-hidden">
+    <div class="absolute inset-0 opacity-40">
+      <img
+        src={site.heroImage}
+        alt="Tree removal in Florida"
+        class="w-full h-full object-cover"
+        width="1600"
+        height="900"
+      />
+      <div class="absolute inset-0 bg-gradient-to-r from-[#1C1D17] via-[#1C1D17]/90 to-transparent"
+      ></div>
+    </div>
+
+    <div class="container-site relative z-10">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div class="max-w-2xl">
+          <p class="text-primary font-bold tracking-wider uppercase mb-4 flex items-center gap-2">
+            <MapPin class="h-5 w-5" /> Top-Rated Tree Removal in Plant City & Tampa Bay
+          </p>
+          <h1 class="text-5xl lg:text-7xl font-heading mb-6 leading-[1.1] text-white">
+            EXPERT TREE SERVICE <br />
+            <span class="text-accent">WHEN YOU NEED IT FAST</span>
+          </h1>
+
+          <ul class="space-y-3 mb-8 text-lg font-medium">
+            <li class="flex items-center gap-3">
+              <div class="flex text-yellow-400">
+                <Star class="fill-current h-5 w-5" /><Star class="fill-current h-5 w-5" /><Star
+                  class="fill-current h-5 w-5"></Star><Star class="fill-current h-5 w-5" /><Star
+                  class="fill-current h-5 w-5"></Star>
+              </div>
+              <span>{site.rating.value}★ ({site.rating.count} Reviews)</span>
+            </li>
+            <li class="flex items-center gap-3"
+              ><Clock class="h-5 w-5 text-primary" /> 24/7 Emergency Service</li
+            >
+            <li class="flex items-center gap-3"
+              ><CheckCircle2 class="h-5 w-5 text-primary" /> Free Estimates</li
+            >
+            <li class="flex items-center gap-3"
+              ><ShieldCheck class="h-5 w-5 text-primary" /> {site.credentials.insurance}</li
+            >
+          </ul>
+
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href={`tel:${site.phoneTel}`} class="btn btn-lg btn-primary">
+              <Phone class="h-5 w-5" /> Call {site.phone}
+            </a>
+            <a href="/contact" class="btn btn-lg btn-secondary">Get a Fast Quote</a>
+          </div>
+        </div>
+
+        <div class="lg:ml-auto w-full max-w-md">
+          <QuoteForm source="home-hero" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust Bar -->
+  <div class="bg-primary text-primary-foreground py-6 border-b-4 border-accent">
+    <div class="container-site">
+      <div
+        class="flex flex-wrap justify-center lg:justify-between items-center gap-8 font-bold text-lg"
+      >
+        <div class="flex items-center gap-2"
+          ><Star class="fill-current h-6 w-6" /> {site.rating.value} Rating on Google</div
+        >
+        <div class="flex items-center gap-2"
+          ><Clock class="h-6 w-6" /> 24/7 Emergency Response</div
+        >
+        <div class="flex items-center gap-2"
+          ><ShieldCheck class="h-6 w-6" /> {site.credentials.license}</div
+        >
+        <div class="flex items-center gap-2"
+          ><Trees class="h-6 w-6" /> Residential & Commercial</div
+        >
+      </div>
+    </div>
+  </div>
+
+  <!-- Welcome -->
+  <section class="py-20 lg:py-32">
+    <div class="container-site">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div class="relative">
+          <img
+            src={site.teamImage}
+            alt="CJ and the You Care We Care team"
+            class="rounded-2xl shadow-2xl w-full"
+            width="800"
+            height="600"
+          />
+          <div
+            class="absolute -bottom-8 -right-8 bg-card p-6 rounded-xl shadow-xl border-l-4 border-primary max-w-xs hidden sm:block"
+          >
+            <div class="flex gap-1 text-yellow-400 mb-2">
+              {[1, 2, 3, 4, 5].map(() => <Star class="fill-current h-5 w-5" />)}
+            </div>
+            <p class="font-bold">
+              "CJ was very professional and kind. Did exactly everything he said he would do in the
+              time he said."
+            </p>
+            <p class="text-sm text-muted-foreground mt-2">— Rocky G.</p>
+          </div>
+        </div>
+
+        <div>
+          <h2 class="text-4xl lg:text-5xl font-heading mb-6 text-foreground">
+            YOU CARE, WE CARE — FOR EVERY TREE
+          </h2>
+          <p class="text-xl text-muted-foreground mb-6">
+            When a tree becomes a hazard or an eyesore, you need a team that responds fast and treats
+            your property with respect. Led by owner/operator CJ, we bring expertise, heavy-duty
+            equipment, and a commitment to doing the job right.
+          </p>
+          <ul class="space-y-4 mb-8">
+            <li class="flex items-start gap-3">
+              <CheckCircle2 class="h-6 w-6 text-primary shrink-0 mt-0.5" />
+              <div>
+                <strong class="block text-lg">Fast Response Times</strong>
+                <span class="text-muted-foreground"
+                  >We answer the phone and show up when we say we will.</span
+                >
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle2 class="h-6 w-6 text-primary shrink-0 mt-0.5" />
+              <div>
+                <strong class="block text-lg">Thorough Cleanup</strong>
+                <span class="text-muted-foreground"
+                  >We don't leave a mess behind. Your yard will look pristine.</span
+                >
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle2 class="h-6 w-6 text-primary shrink-0 mt-0.5" />
+              <div>
+                <strong class="block text-lg">Owner On-Site</strong>
+                <span class="text-muted-foreground"
+                  >CJ is personally involved to ensure top-quality results.</span
+                >
+              </div>
+            </li>
+          </ul>
+          <a href="/about" class="btn btn-lg btn-primary">More About Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="py-20 bg-muted">
+    <div class="container-site">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-4xl lg:text-5xl font-heading mb-6">OUR TREE SERVICES</h2>
+        <p class="text-xl text-muted-foreground">
+          From massive oak removals to delicate trimming, we have the tools and experience to handle
+          any job safely.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {
+          featuredServices.map((service) => (
+            <div class="bg-card rounded-xl overflow-hidden shadow-lg border border-border flex flex-col group">
+              <div class="h-48 overflow-hidden">
+                <img
+                  src={service.image}
+                  alt={service.title}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  width="400"
+                  height="192"
+                />
+              </div>
+              <div class="p-6 flex flex-col flex-1">
+                <h3 class="text-2xl font-heading mb-3">{service.title}</h3>
+                <p class="text-muted-foreground mb-6 flex-1">{service.shortDescription}</p>
+                <a
+                  href={`/services/${service.slug}`}
+                  class="btn btn-md btn-outline w-full group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary"
+                >
+                  Learn More
+                </a>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="text-center mt-12">
+        <a href="/services" class="btn btn-lg btn-primary">View All Services</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Neighborhood proof -->
+  <section class="py-20">
+    <div class="container-site">
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <h2 class="text-4xl lg:text-5xl font-heading mb-6">RECENT WORK AROUND TAMPA BAY</h2>
+        <p class="text-xl text-muted-foreground">
+          Real jobs, real neighborhoods — so you can see we already serve areas like yours.
+        </p>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {
+          recentJobs.map((job) => (
+            <div class="bg-muted p-6 rounded-xl border border-border">
+              <p class="text-primary font-bold text-sm uppercase tracking-wide mb-2">
+                {job.response} response
+              </p>
+              <h3 class="text-xl font-heading mb-2 normal-case tracking-normal">{job.title}</h3>
+              <p class="text-muted-foreground mb-1">
+                {job.neighborhood}, {job.city}
+              </p>
+              <p class="font-semibold">{job.service}</p>
+            </div>
+          ))
+        }
+      </div>
+      <div class="text-center mt-10">
+        <a href="/reviews" class="btn btn-md btn-outline">See Customer Reviews</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section class="py-20 bg-[#3B7543] text-[#EEEDEA]">
+    <div class="container-site">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-4xl lg:text-5xl font-heading mb-6 text-white">HOW IT WORKS</h2>
+        <p class="text-xl text-white/80">Getting your tree problems solved is simple and stress-free.</p>
+      </div>
+
+      <div class="grid md:grid-cols-4 gap-8 relative">
+        <div
+          class="hidden md:block absolute top-12 left-[10%] right-[10%] h-1 bg-white/20 border-t-2 border-dashed border-white/40"
+        >
+        </div>
+
+        {
+          [
+            {
+              n: '1',
+              t: 'Call for a Free Estimate',
+              d: "Reach out 24/7. We'll listen to your needs and schedule a convenient time to visit.",
+            },
+            {
+              n: '2',
+              t: 'We Assess & Quote',
+              d: 'CJ will evaluate the tree(s) and provide a clear, honest price on the spot.',
+            },
+            {
+              n: '3',
+              t: 'We Work Safely',
+              d: 'We complete the job with professional equipment and protect your property.',
+            },
+            {
+              n: '4',
+              t: 'We Clean Up',
+              d: 'We haul debris and leave your yard looking better than we found it.',
+            },
+          ].map((step) => (
+            <div class="relative text-center">
+              <div class="w-24 h-24 bg-primary text-white rounded-full flex items-center justify-center text-4xl font-heading mx-auto mb-6 shadow-xl relative z-10">
+                {step.n}
+              </div>
+              <h3 class="text-2xl font-heading mb-4 text-white">{step.t}</h3>
+              <p class="text-white/80">{step.d}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Reviews -->
+  <section class="py-20">
+    <div class="container-site">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <div class="flex justify-center gap-1 text-yellow-400 mb-4">
+          {[1, 2, 3, 4, 5].map(() => <Star class="fill-current h-8 w-8" />)}
+        </div>
+        <h2 class="text-4xl lg:text-5xl font-heading mb-6">5.0 STARS FROM OUR CLIENTS</h2>
+        <p class="text-xl text-muted-foreground">Don't just take our word for it. See what your neighbors say.</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        {
+          homeReviews.map((review) => (
+            <div class="bg-muted p-8 rounded-xl relative">
+              <div class="text-primary opacity-20 text-6xl font-serif absolute top-4 left-4">"</div>
+              <div class="flex gap-1 text-yellow-400 mb-4 relative z-10">
+                {[1, 2, 3, 4, 5].map(() => <Star class="fill-current h-4 w-4" />)}
+              </div>
+              <p class="text-lg mb-6 relative z-10">"{review.text}"</p>
+              <p class="font-bold font-heading text-xl normal-case tracking-normal">
+                {review.name}
+                <span class="block text-sm font-sans font-medium text-muted-foreground normal-case tracking-normal"
+                  >{review.city}, FL</span
+                >
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Service Areas -->
+  <section class="py-20 bg-muted border-t border-border">
+    <div class="container-site">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div>
+          <h2 class="text-4xl lg:text-5xl font-heading mb-6">PROUDLY SERVING TAMPA BAY</h2>
+          <p class="text-xl text-muted-foreground mb-8">
+            Based in Plant City, we dispatch our crews across the region to provide fast, reliable
+            tree care for homes and businesses.
+          </p>
+
+          <div class="grid grid-cols-2 gap-y-4 gap-x-8 font-semibold text-lg">
+            {
+              areaPreview.map((area) => (
+                <a
+                  href={`/areas/${area.slug}`}
+                  class="flex items-center gap-2 hover:text-primary transition-colors"
+                >
+                  <MapPin class="h-5 w-5 text-primary" /> {area.city}
+                </a>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="bg-card p-4 rounded-xl shadow-lg border border-border">
+          <div class="aspect-square bg-muted rounded-lg flex items-center justify-center">
+            <div class="text-center p-8">
+              <MapPin class="h-16 w-16 text-primary mx-auto mb-4" />
+              <p class="font-bold text-xl">Service Area Map</p>
+              <p class="text-muted-foreground mb-4">Based at {site.address.street}</p>
+              <a
+                href={site.mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-md btn-primary"
+              >
+                Open Google Maps
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Decision guides -->
+  <section class="py-20">
+    <div class="container-site">
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <h2 class="text-4xl lg:text-5xl font-heading mb-6">NOT SURE WHAT YOU NEED?</h2>
+        <p class="text-xl text-muted-foreground">
+          Every page answers one buying question — pick the path that matches your situation.
+        </p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-8">
+        <a
+          href="/pricing/tree-removal-cost-plant-city"
+          class="bg-card border border-border rounded-xl p-8 hover:border-primary transition-colors shadow-sm"
+        >
+          <p class="text-primary font-bold uppercase text-sm mb-2">How much will it cost?</p>
+          <h3 class="text-2xl font-heading mb-3">Pricing Guides</h3>
+          <p class="text-muted-foreground">
+            See what drives tree removal and trimming costs in Plant City & Tampa Bay.
+          </p>
+        </a>
+        <a
+          href="/compare/local-vs-national-tree-service"
+          class="bg-card border border-border rounded-xl p-8 hover:border-primary transition-colors shadow-sm"
+        >
+          <p class="text-primary font-bold uppercase text-sm mb-2">Why choose us?</p>
+          <h3 class="text-2xl font-heading mb-3">Local vs National</h3>
+          <p class="text-muted-foreground">
+            Compare a local owner-operated crew with big-box / franchise tree companies.
+          </p>
+        </a>
+        <a
+          href="/problems/leaning-tree-vs-storm-damage"
+          class="bg-card border border-border rounded-xl p-8 hover:border-primary transition-colors shadow-sm"
+        >
+          <p class="text-primary font-bold uppercase text-sm mb-2">What's causing this?</p>
+          <h3 class="text-2xl font-heading mb-3">Problem Guides</h3>
+          <p class="text-muted-foreground">
+            Figure out if you should call now — or what to check before you dial.
+          </p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="py-20 bg-muted/50">
+    <div class="container-site max-w-3xl">
+      <div class="text-center mb-12">
+        <h2 class="text-4xl lg:text-5xl font-heading mb-6">FREQUENTLY ASKED QUESTIONS</h2>
+      </div>
+
+      <div class="space-y-3">
+        {
+          faqs.map((faq) => (
+            <details class="faq-item bg-card border border-border rounded-xl px-5 py-2 group">
+              <summary class="cursor-pointer py-4 text-left text-lg font-bold flex items-center justify-between gap-4">
+                {faq.question}
+                <span class="text-primary text-2xl leading-none group-open:rotate-45 transition-transform"
+                  >+</span
+                >
+              </summary>
+              <p class="text-muted-foreground text-base pb-4">{faq.answer}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="py-24 bg-primary text-primary-foreground text-center">
+    <div class="container-site max-w-4xl">
+      <h2 class="text-4xl lg:text-6xl font-heading mb-6">READY TO GET STARTED?</h2>
+      <p class="text-2xl mb-10 text-white/90 font-medium">
+        Call today for a FREE ESTIMATE on your tree project.
+      </p>
+      <div class="flex flex-col sm:flex-row justify-center gap-4">
+        <a href={`tel:${site.phoneTel}`} class="btn btn-xl btn-ghost-light">
+          <Phone class="h-6 w-6" />
+          {site.phone}
+        </a>
+        <a href="/contact" class="btn btn-xl btn-dark">Get a Fast Quote</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

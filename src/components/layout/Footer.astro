@@ -1,0 +1,126 @@
+---
+import { site, services, locations } from '../../data/site';
+
+const year = new Date().getFullYear();
+const areaLinks = locations;
+---
+
+<footer class="bg-[#1C1D17] text-[#EEEDEA] pt-16 pb-24 lg:pb-8">
+  <div class="container-site grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+    <div>
+      <img
+        src={site.logo}
+        alt={`${site.name} Logo`}
+        class="h-20 mb-6 bg-white p-2 rounded-lg"
+        width="160"
+        height="80"
+      />
+      <p class="text-xl font-heading mb-4 text-primary">{site.tagline}</p>
+      <p class="mb-2">
+        {site.address.street}<br />
+        {site.address.city}, {site.address.state} {site.address.zip}
+      </p>
+      <a
+        href={`tel:${site.phoneTel}`}
+        class="text-2xl font-bold text-primary hover:text-white transition-colors block mb-2"
+      >
+        {site.phone}
+      </a>
+      <p class="text-accent font-bold mb-2">{site.hours.label}</p>
+      <p class="text-sm text-white/70 mb-1">{site.credentials.license}</p>
+      <p class="text-sm text-white/70 mb-4">{site.credentials.insurance}</p>
+      <a
+        href={site.mapsUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-sm underline hover:text-primary"
+      >
+        View on Google Maps
+      </a>
+    </div>
+
+    <div>
+      <h3 class="font-heading text-2xl mb-4 text-white">Services</h3>
+      <ul class="space-y-2">
+        {
+          services.map((service) => (
+            <li>
+              <a href={`/services/${service.slug}`} class="hover:text-primary transition-colors">
+                {service.title}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div>
+      <h3 class="font-heading text-2xl mb-4 text-white">Service Areas</h3>
+      <ul class="space-y-2">
+        {
+          areaLinks.map((area) => (
+            <li>
+              <a
+                href={`/areas/${area.slug}`}
+                class:list={[
+                  'hover:text-primary transition-colors',
+                  area.isHq && 'font-bold text-accent',
+                ]}
+              >
+                {area.city}
+                {area.isHq ? ' (HQ)' : ''}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div>
+      <h3 class="font-heading text-2xl mb-4 text-white">Decide With Confidence</h3>
+      <ul class="space-y-2 mb-6">
+        <li><a href="/about" class="hover:text-primary transition-colors">About Us</a></li>
+        <li><a href="/contact" class="hover:text-primary transition-colors">Contact</a></li>
+        <li>
+          <a href="/pricing/tree-removal-cost-plant-city" class="hover:text-primary transition-colors"
+            >Pricing Guides</a
+          >
+        </li>
+        <li>
+          <a href="/compare/local-vs-national-tree-service" class="hover:text-primary transition-colors"
+            >Why Local</a
+          >
+        </li>
+        <li>
+          <a href="/problems/leaning-tree-vs-storm-damage" class="hover:text-primary transition-colors"
+            >Problem Guides</a
+          >
+        </li>
+        <li><a href="/privacy" class="hover:text-primary transition-colors">Privacy Policy</a></li>
+        <li><a href="/terms" class="hover:text-primary transition-colors">Terms of Service</a></li>
+        <li>
+          <a href="/accessibility" class="hover:text-primary transition-colors">Accessibility</a>
+        </li>
+      </ul>
+      <a
+        href={site.facebookUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-primary text-white hover:bg-primary/80 transition-colors"
+        aria-label="Facebook"
+      >
+        <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"
+          ><path
+            d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4v-8.5z"
+          ></path></svg
+        >
+      </a>
+    </div>
+  </div>
+  <div class="container-site mt-12 pt-8 border-t border-white/10 text-sm text-white/60 text-center">
+    &copy; {year}
+    {site.name}. All rights reserved. <span class="block sm:inline mt-1 sm:mt-0"
+      >{site.credentials.note}</span
+    >
+  </div>
+</footer>

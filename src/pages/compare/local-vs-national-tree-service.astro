@@ -1,0 +1,97 @@
+---
+import { CheckCircle2, X } from '@lucide/astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import QuoteForm from '../../components/forms/QuoteForm.astro';
+import { site } from '../../data/site';
+
+const title = `Local Tree Service vs National Companies — What's the Difference? | ${site.shortName}`;
+const description =
+  'Compare a local Plant City owner-operated tree crew with national / franchise tree companies — response time, accountability, and cleanup.';
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="bg-[#1C1D17] text-[#EEEDEA] py-20">
+    <div class="container-site max-w-4xl">
+      <p class="text-primary font-bold uppercase tracking-wider mb-4">Comparison</p>
+      <h1 class="text-4xl lg:text-5xl font-heading mb-6 text-white">
+        Local Tree Company vs National Brand — What's the Difference?
+      </h1>
+      <p class="text-xl text-white/90">
+        One question this page answers: why should you choose a local crew over a big-name
+        franchise?
+      </p>
+    </div>
+  </section>
+
+  <section class="py-16 lg:py-24">
+    <div class="container-site grid lg:grid-cols-3 gap-12">
+      <div class="lg:col-span-2 space-y-10">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse min-w-[560px]">
+            <thead>
+              <tr class="border-b-2 border-border">
+                <th class="py-4 pr-4 font-heading text-xl">Factor</th>
+                <th class="py-4 pr-4 font-heading text-xl text-primary">You Care We Care</th>
+                <th class="py-4 font-heading text-xl text-muted-foreground">Typical National</th>
+              </tr>
+            </thead>
+            <tbody class="text-muted-foreground">
+              {
+                [
+                  ['Who shows up', 'Owner CJ involved on jobs', 'Rotating subcontracted crews'],
+                  ['Response', 'Local dispatch, 24/7 emergencies', 'Call center → local franchise'],
+                  ['Estimate', 'On-site, clear scope', 'Often phone quote or sales visit'],
+                  ['Cleanup', 'Core promise — yard left clean', 'Varies by franchise'],
+                  ['Accountability', 'One local phone number', 'Corporate + franchise layers'],
+                  ['Insurance proof', 'Provided on request', 'Usually available — ask'],
+                ].map(([factor, us, them]) => (
+                  <tr class="border-b border-border">
+                    <td class="py-4 pr-4 font-semibold text-foreground">{factor}</td>
+                    <td class="py-4 pr-4">
+                      <span class="inline-flex items-start gap-2">
+                        <CheckCircle2 class="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                        {us}
+                      </span>
+                    </td>
+                    <td class="py-4">
+                      <span class="inline-flex items-start gap-2">
+                        <X class="h-5 w-5 text-destructive shrink-0 mt-0.5" />
+                        {them}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <div>
+          <h2 class="text-3xl font-heading mb-4">When a National Brand Might Make Sense</h2>
+          <p class="text-lg text-muted-foreground">
+            Multi-state property managers sometimes prefer a single national contract. For a
+            homeowner in Plant City, Brandon, or Tampa who wants a crew that answers the phone and
+            stands behind the cleanup — local usually wins.
+          </p>
+        </div>
+
+        <div class="bg-muted p-8 rounded-xl">
+          <h2 class="text-2xl font-heading mb-4">Our Credentials (Preview)</h2>
+          <p class="mb-2">{site.credentials.license}</p>
+          <p class="mb-2">{site.credentials.insurance}</p>
+          <p class="text-sm text-muted-foreground">{site.credentials.note}</p>
+        </div>
+
+        <div class="flex flex-wrap gap-4">
+          <a href="/about" class="btn btn-md btn-outline">About Us</a>
+          <a href="/reviews" class="btn btn-md btn-outline">Read Reviews</a>
+          <a href="/contact" class="btn btn-md btn-primary">Get a Local Estimate</a>
+        </div>
+      </div>
+
+      <div>
+        <QuoteForm source="compare-local-vs-national" />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

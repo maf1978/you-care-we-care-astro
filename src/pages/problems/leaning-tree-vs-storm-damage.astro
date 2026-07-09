@@ -1,0 +1,96 @@
+---
+import { Phone, AlertTriangle, CheckCircle2 } from '@lucide/astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import QuoteForm from '../../components/forms/QuoteForm.astro';
+import { site } from '../../data/site';
+
+const title = `Leaning Tree vs Storm Damage — What Should You Check Before Calling? | ${site.shortName}`;
+const description =
+  'Is your tree an emergency? Learn the difference between a slowly leaning tree and storm damage — and when to call 24/7 tree service in Plant City.';
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="bg-[#1C1D17] text-[#EEEDEA] py-20">
+    <div class="container-site max-w-4xl">
+      <p class="text-primary font-bold uppercase tracking-wider mb-4">Problem Guide</p>
+      <h1 class="text-4xl lg:text-5xl font-heading mb-6 text-white">
+        Leaning Tree vs Storm Damage — What Should You Check Before Calling?
+      </h1>
+      <p class="text-xl text-white/90">
+        One question this page answers: should you call now, or can it wait for a free estimate?
+      </p>
+    </div>
+  </section>
+
+  <section class="py-16 lg:py-24">
+    <div class="container-site grid lg:grid-cols-3 gap-12">
+      <div class="lg:col-span-2 space-y-10">
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="bg-destructive/10 border border-destructive/30 rounded-xl p-6">
+            <AlertTriangle class="h-8 w-8 text-destructive mb-3" />
+            <h2 class="text-2xl font-heading mb-3">Call Now (Emergency)</h2>
+            <ul class="space-y-2 text-muted-foreground">
+              <li>• Tree on a roof, car, or power line</li>
+              <li>• Large limb hanging / cracked after a storm</li>
+              <li>• Roots heaved up after high winds</li>
+              <li>• Blocking driveway or exit route</li>
+            </ul>
+            <a href={`tel:${site.phoneTel}`} class="btn btn-md btn-primary mt-6 w-full">
+              <Phone class="h-4 w-4" /> 24/7 Emergency: {site.phone}
+            </a>
+          </div>
+
+          <div class="bg-muted border border-border rounded-xl p-6">
+            <CheckCircle2 class="h-8 w-8 text-primary mb-3" />
+            <h2 class="text-2xl font-heading mb-3">Schedule an Estimate</h2>
+            <ul class="space-y-2 text-muted-foreground">
+              <li>• Slow lean over months/years</li>
+              <li>• Dead branches but tree still stable</li>
+              <li>• Wanting clearance from roof/pool</li>
+              <li>• Planning landscaping or a fence</li>
+            </ul>
+            <a href="/contact" class="btn btn-md btn-outline mt-6 w-full">Request Free Estimate</a>
+          </div>
+        </div>
+
+        <div>
+          <h2 class="text-3xl font-heading mb-4">Quick Checks From a Safe Distance</h2>
+          <ol class="space-y-4 text-lg text-muted-foreground list-decimal list-inside">
+            <li>Stay clear of the fall zone — do not climb or cut.</li>
+            <li>Look for fresh cracks, lifted soil, or hanging limbs.</li>
+            <li>If power lines are involved, call the utility first, then us.</li>
+            <li>Take a photo from a safe spot to share when you call.</li>
+          </ol>
+        </div>
+
+        <div class="bg-card border border-border rounded-xl p-8">
+          <h2 class="text-2xl font-heading mb-4">Related Next Steps</h2>
+          <ul class="space-y-3">
+            <li>
+              <a
+                href="/services/emergency-storm-damage"
+                class="text-primary font-semibold hover:underline"
+                >Emergency & Storm Damage service</a
+              >
+            </li>
+            <li>
+              <a href="/services/tree-removal" class="text-primary font-semibold hover:underline"
+                >Planned Tree Removal</a
+              >
+            </li>
+            <li>
+              <a
+                href="/pricing/tree-removal-cost-plant-city"
+                class="text-primary font-semibold hover:underline">What affects the cost?</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div>
+        <QuoteForm source="problem-leaning-vs-storm" />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

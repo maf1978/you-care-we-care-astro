@@ -1,0 +1,59 @@
+---
+import { MapPin } from '@lucide/astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { site, locations } from '../../data/site';
+---
+
+<BaseLayout
+  title={`Tree Service Areas — Plant City & Tampa Bay | ${site.shortName}`}
+  description="We serve Plant City, Tampa, Brandon, Riverview, Valrico, Lutz, Land O' Lakes, Wesley Chapel, Carrollwood, and Temple Terrace."
+>
+  <section class="bg-[#1C1D17] text-[#EEEDEA] py-20">
+    <div class="container-site text-center">
+      <h1 class="text-4xl lg:text-6xl font-heading mb-6 text-white">SERVICE AREAS</h1>
+      <p class="text-xl text-white/90 max-w-2xl mx-auto">
+        Do we serve your area? Pick your city for local proof, neighborhoods, and services.
+      </p>
+    </div>
+  </section>
+
+  <section class="py-20">
+    <div class="container-site">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {
+          locations.map((area) => (
+            <a
+              href={`/areas/${area.slug}`}
+              class="bg-card border border-border rounded-xl p-6 hover:border-primary transition-colors shadow-sm"
+            >
+              <div class="flex items-start gap-3 mb-3">
+                <MapPin class="h-6 w-6 text-primary shrink-0 mt-1" />
+                <div>
+                  <h2 class="text-2xl font-heading">
+                    {area.city}
+                    {area.isHq ? ' (HQ)' : ''}
+                  </h2>
+                  <p class="text-muted-foreground mt-2">{area.hook}</p>
+                </div>
+              </div>
+              <p class="text-sm text-muted-foreground pl-9">
+                ZIPs: {area.zipCodes.join(', ')}
+              </p>
+            </a>
+          ))
+        }
+      </div>
+
+      <div class="mt-12 text-center">
+        <a
+          href={site.mapsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn-lg btn-primary"
+        >
+          View Our Location on Google Maps
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

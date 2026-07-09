@@ -1,0 +1,109 @@
+---
+import { Phone, CheckCircle2 } from '@lucide/astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import QuoteForm from '../../components/forms/QuoteForm.astro';
+import { site } from '../../data/site';
+
+const title = `How Much Does Tree Removal Cost in Plant City, FL? | ${site.shortName}`;
+const description =
+  'Transparent tree removal pricing factors for Plant City and Tampa Bay — size, access, hazards, and cleanup. Free on-site estimates.';
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="bg-[#1C1D17] text-[#EEEDEA] py-20">
+    <div class="container-site max-w-4xl">
+      <p class="text-primary font-bold uppercase tracking-wider mb-4">Pricing Guide</p>
+      <h1 class="text-4xl lg:text-6xl font-heading mb-6 text-white">
+        How Much Does Tree Removal Cost in Plant City?
+      </h1>
+      <p class="text-xl text-white/90">
+        One question this page answers: what drives the price — and what a fair local estimate
+        should include.
+      </p>
+    </div>
+  </section>
+
+  <section class="py-16 lg:py-24">
+    <div class="container-site grid lg:grid-cols-3 gap-12">
+      <div class="lg:col-span-2 space-y-10 prose-like">
+        <div>
+          <h2 class="text-3xl font-heading mb-4">Typical Price Drivers</h2>
+          <p class="text-lg text-muted-foreground mb-6">
+            There is no honest flat rate for every tree. In Plant City and Tampa Bay, these factors
+            move the number most:
+          </p>
+          <ul class="space-y-4">
+            {
+              [
+                {
+                  t: 'Tree size & species',
+                  d: 'A 20-ft ornamental costs far less than a mature live oak with a wide canopy.',
+                },
+                {
+                  t: 'Location & access',
+                  d: 'Backyard trees near fences, pools, or power lines need more rigging time.',
+                },
+                {
+                  t: 'Condition',
+                  d: 'Dead, hollow, or storm-compromised trees can be more complex (and more urgent).',
+                },
+                {
+                  t: 'Cleanup & hauling',
+                  d: 'Full debris removal vs. leaving wood chips on-site changes labor and dump fees.',
+                },
+                {
+                  t: 'Stump grinding',
+                  d: 'Often quoted separately by stump diameter — ask to bundle it with removal.',
+                },
+              ].map((item) => (
+                <li class="flex items-start gap-3">
+                  <CheckCircle2 class="h-6 w-6 text-primary shrink-0 mt-0.5" />
+                  <div>
+                    <strong class="block text-lg">{item.t}</strong>
+                    <span class="text-muted-foreground">{item.d}</span>
+                  </div>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div class="bg-muted p-8 rounded-xl">
+          <h2 class="text-2xl font-heading mb-4">What You Should Expect From Us</h2>
+          <ul class="space-y-3 text-muted-foreground">
+            <li>✓ Free, no-obligation on-site estimate</li>
+            <li>✓ Clear scope: removal, haul-away, and optional stump grind</li>
+            <li>✓ {site.credentials.insurance}</li>
+            <li>✓ Thorough cleanup included in the quote we give you</li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="text-3xl font-heading mb-4">Should You Call Now or Wait?</h2>
+          <p class="text-lg text-muted-foreground mb-4">
+            Call now if the tree is leaning toward a structure, blocking access, or damaged after a
+            storm. Planned removals can usually be scheduled within a few days after your free
+            estimate.
+          </p>
+          <a
+            href="/problems/leaning-tree-vs-storm-damage"
+            class="text-primary font-bold hover:underline"
+            >Read: leaning tree vs storm damage →</a
+          >
+        </div>
+
+        <div class="flex flex-wrap gap-4">
+          <a href={`/services/tree-removal`} class="btn btn-md btn-outline">Tree Removal Service</a>
+          <a href="/areas/plant-city" class="btn btn-md btn-outline">Plant City Area Page</a>
+          <a href={`tel:${site.phoneTel}`} class="btn btn-md btn-primary">
+            <Phone class="h-4 w-4" /> {site.phone}
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <QuoteForm source="pricing-tree-removal" />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+---
+
+<BaseLayout title={`Page Not Found | ${site.shortName}`} noindex>
+  <section class="py-32 text-center">
+    <div class="container-site">
+      <h1 class="text-6xl font-heading mb-6">404</h1>
+      <p class="text-xl text-muted-foreground mb-8">That page doesn't exist.</p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/" class="btn btn-lg btn-primary">Go Home</a>
+        <a href="/contact" class="btn btn-lg btn-outline">Contact Us</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

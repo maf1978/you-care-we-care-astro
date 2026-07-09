@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+---
+
+<BaseLayout title={`Terms of Service | ${site.name}`} description="Terms of service for You Care We Care Tree Service.">
+  <section class="bg-[#1C1D17] text-[#EEEDEA] py-16">
+    <div class="container-site"><h1 class="text-4xl font-heading text-white">Terms of Service</h1></div>
+  </section>
+  <section class="py-16">
+    <div class="container-site max-w-3xl space-y-4 text-muted-foreground">
+      <p>
+        Estimates provided by {site.name} are based on the information available at the time of
+        assessment. Final scope and pricing are confirmed before work begins.
+      </p>
+      <p>
+        Emergency work may involve additional equipment or after-hours rates, which will be
+        communicated as clearly as conditions allow.
+      </p>
+      <p>
+        License and insurance numbers shown on this preview site are placeholders until real
+        credentials are supplied.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

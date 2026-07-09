@@ -1,0 +1,76 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+
+const reviewed = 'July 8, 2026';
+---
+
+<BaseLayout
+  title={`Accessibility Statement | ${site.name}`}
+  description={`${site.name} is designed to meet WCAG 2.1 Level AA. Contact us if you encounter an accessibility barrier.`}
+>
+  <section class="bg-[#1C1D17] text-[#EEEDEA] py-16">
+    <div class="container-site">
+      <h1 class="text-4xl lg:text-5xl font-heading text-white">Accessibility Statement</h1>
+    </div>
+  </section>
+
+  <section class="py-16">
+    <div class="container-site max-w-3xl space-y-6 text-muted-foreground text-lg leading-relaxed">
+      <p>
+        {site.name} is committed to ensuring digital accessibility for people with disabilities. We
+        continually improve the user experience for everyone and apply relevant accessibility
+        standards.
+      </p>
+
+      <h2 class="text-2xl font-heading text-foreground">Conformance goal</h2>
+      <p>
+        This website is designed to meet
+        <strong class="text-foreground">WCAG 2.1 Level AA</strong>
+        (Web Content Accessibility Guidelines). This supports ADA Title III expectations for
+        public-facing business websites. We do not claim a formal legal certification; we welcome
+        feedback if anything falls short.
+      </p>
+
+      <h2 class="text-2xl font-heading text-foreground">Measures we take</h2>
+      <ul class="list-disc pl-6 space-y-2">
+        <li>Skip link to main content</li>
+        <li>Keyboard-operable navigation and forms</li>
+        <li>Visible focus indicators</li>
+        <li>Labeled form fields and clear error messaging</li>
+        <li>Semantic headings and landmarks</li>
+        <li>Text alternatives for meaningful images</li>
+        <li>Respect for reduced-motion preferences</li>
+      </ul>
+
+      <h2 class="text-2xl font-heading text-foreground">Known limitations</h2>
+      <p>
+        Third-party content (for example Google Maps embeds or a future GoHighLevel iframe) may not
+        fully meet WCAG 2.1 AA. Where possible we provide accessible alternatives such as a phone
+        number, address text, and a maps link that opens in a new tab.
+      </p>
+
+      <h2 class="text-2xl font-heading text-foreground">Feedback</h2>
+      <p>
+        If you encounter an accessibility barrier on this site, please contact us. We aim to respond
+        within two business days.
+      </p>
+      <ul class="space-y-2">
+        <li>
+          Phone:
+          <a href={`tel:${site.phoneTel}`} class="text-primary font-semibold hover:underline"
+            >{site.phone}</a
+          >
+        </li>
+        <li>
+          Email:
+          <a href={`mailto:${site.email}`} class="text-primary font-semibold hover:underline"
+            >{site.email}</a
+          >
+        </li>
+      </ul>
+
+      <p class="text-sm">Last reviewed: {reviewed}</p>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,222 @@
+---
+import { Phone, MapPin, Star, ChevronRight, Clock } from '@lucide/astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import QuoteForm from '../../components/forms/QuoteForm.astro';
+import {
+  site,
+  services,
+  locations,
+  getLocation,
+  reviews,
+  recentJobs,
+} from '../../data/site';
+
+export function getStaticPaths() {
+  return locations.map((location) => ({
+    params: { slug: location.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+const area = getLocation(slug!);
+
+if (!area) {
+  return Astro.redirect('/404');
+}
+
+const areaJobs = recentJobs.filter(
+  (j) => j.city === area.city || area.neighborhoods.some((n) => j.neighborhood.includes(n.split(' ')[0])),
+);
+const displayJobs =
+  areaJobs.length > 0
+    ? areaJobs
+    : recentJobs.slice(0, 2).map((j) => ({ ...j, city: area.city }));
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}/` },
+    { '@type': 'ListItem', position: 2, name: 'Service Areas', item: `${site.url}/areas` },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: area.city,
+      item: `${site.url}/areas/${area.slug}`,
+    },
+  ],
+};
+
+const title = `Tree Removal in ${area.city}, FL | ${site.shortName}`;
+const description = `${area.hook} Free estimates, 24/7 emergency response. Serving ${area.neighborhoods.join(', ')}.`;
+---
+
+<BaseLayout title={title} description={description} schema={breadcrumbSchema}>
+  <section class="bg-[#1C1D17] text-[#EEEDEA] py-20 lg:py-32 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-30">
+      <img
+        src={site.heroImage}
+        alt={`Tree Service in ${area.city}`}
+        class="w-full h-full object-cover"
+        width="1600"
+        height="900"
+      />
+      <div class="absolute inset-0 bg-[#1C1D17]/80"></div>
+    </div>
+    <div class="container-site relative z-10">
+      <div class="max-w-3xl">
+        <div class="flex items-center gap-2 text-primary font-bold uppercase tracking-wider mb-4 text-sm">
+          <a href="/" class="hover:text-white transition-colors">Home</a>
+          <ChevronRight class="h-4 w-4" />
+          <a href="/areas" class="hover:text-white transition-colors">Service Areas</a>
+          <ChevronRight class="h-4 w-4" />
+          <span class="text-white">{area.city}</span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-heading mb-6 text-white">
+          Tree Removal in {area.city}, FL
+        </h1>
+        <p class="text-xl lg:text-2xl text-white/90 font-medium mb-8">{area.hook}</p>
+        <a href={`tel:${site.phoneTel}`} class="btn btn-lg btn-primary">
+          <Phone class="h-5 w-5" /> Get a Free Estimate
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="container-site py-16 lg:py-24">
+    <div class="grid lg:grid-cols-3 gap-12">
+      <div class="lg:col-span-2 space-y-12">
+        <section>
+          <h2 class="text-3xl font-heading mb-4">Expert Tree Care in {area.city}</h2>
+          <p class="text-lg text-muted-foreground leading-relaxed mb-6">
+            When homeowners and businesses in {area.city} need fast, professional tree services, they
+            call You Care We Care. We understand the unique challenges of maintaining trees in
+            Florida's climate, from hurricane season preparation to managing massive oaks and
+            towering palms.
+          </p>
+          <p class="text-lg text-muted-foreground leading-relaxed">
+            Whether you need a dangerous tree removed, emergency storm cleanup, or routine trimming
+            to keep your property looking its best, our experienced crew arrives with the right
+            equipment to do the job safely and efficiently.
+          </p>
+        </section>
+
+        <!-- Neighborhood proof -->
+        <section class="bg-muted p-8 rounded-xl border border-border">
+          <h2 class="text-2xl font-heading mb-2">Neighborhoods We Serve in {area.city}</h2>
+          <p class="text-muted-foreground mb-6">
+            Yes — we serve your area. ZIP codes: {area.zipCodes.join(', ')}.
+          </p>
+          <div class="flex flex-wrap gap-3 mb-8">
+            {
+              area.neighborhoods.map((n) => (
+                <span class="bg-card border border-border px-4 py-2 rounded-lg font-semibold text-sm">
+                  {n}
+                </span>
+              ))
+            }
+          </div>
+
+          <h3 class="text-xl font-heading mb-4 normal-case tracking-normal">Recent local proof</h3>
+          <div class="grid sm:grid-cols-2 gap-4">
+            {
+              displayJobs.map((job) => (
+                <div class="bg-card p-4 rounded-lg border border-border">
+                  <p class="flex items-center gap-2 text-primary font-bold text-sm mb-1">
+                    <Clock class="h-4 w-4" /> {job.response}
+                  </p>
+                  <p class="font-bold">{job.title}</p>
+                  <p class="text-sm text-muted-foreground">
+                    {job.neighborhood} · {job.service}
+                  </p>
+                </div>
+              ))
+            }
+          </div>
+        </section>
+
+        <section class="bg-muted p-8 rounded-xl border border-border">
+          <h2 class="text-2xl font-heading mb-6">Services Offered in {area.city}</h2>
+          <div class="grid sm:grid-cols-2 gap-4">
+            {
+              services.map((service) => (
+                <a
+                  href={`/services/${service.slug}`}
+                  class="flex items-center gap-3 p-4 bg-card rounded-lg hover:border-primary border border-transparent transition-colors shadow-sm"
+                >
+                  <MapPin class="h-5 w-5 text-primary shrink-0" />
+                  <span class="font-bold">{service.title}</span>
+                </a>
+              ))
+            }
+          </div>
+        </section>
+
+        <section>
+          <h2 class="text-3xl font-heading mb-6">Why Locals Trust Us</h2>
+          <div class="grid sm:grid-cols-2 gap-6">
+            {
+              reviews.slice(0, 2).map((review) => (
+                <div class="bg-card border border-border p-6 rounded-xl shadow-sm">
+                  <div class="flex gap-1 text-yellow-400 mb-3">
+                    {[1, 2, 3, 4, 5].map(() => <Star class="fill-current h-4 w-4" />)}
+                  </div>
+                  <p class="mb-4 italic">"{review.text}"</p>
+                  <p class="font-bold font-heading normal-case tracking-normal">
+                    {review.name} — {review.city}, FL
+                  </p>
+                </div>
+              ))
+            }
+          </div>
+        </section>
+
+        <section class="bg-card border border-border rounded-xl p-8">
+          <h2 class="text-2xl font-heading mb-4">Still Deciding?</h2>
+          <ul class="space-y-3">
+            <li>
+              <a
+                href="/pricing/tree-removal-cost-plant-city"
+                class="text-primary font-semibold hover:underline"
+                >How much does tree removal cost?</a
+              >
+            </li>
+            <li>
+              <a
+                href="/compare/local-vs-national-tree-service"
+                class="text-primary font-semibold hover:underline"
+                >Why choose a local crew over a national brand?</a
+              >
+            </li>
+            <li>
+              <a
+                href="/problems/leaning-tree-vs-storm-damage"
+                class="text-primary font-semibold hover:underline"
+                >Is my tree an emergency?</a
+              >
+            </li>
+          </ul>
+        </section>
+      </div>
+
+      <div class="space-y-8">
+        <QuoteForm source={`area-${area.slug}`} />
+        <div class="bg-card border border-border p-6 rounded-xl">
+          <h3 class="font-heading text-xl mb-3">Find Us</h3>
+          <p class="text-muted-foreground mb-4">
+            {site.address.street}<br />
+            {site.address.city}, {site.address.state} {site.address.zip}
+          </p>
+          <a
+            href={site.mapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-md btn-outline w-full"
+          >
+            Open Google Maps
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

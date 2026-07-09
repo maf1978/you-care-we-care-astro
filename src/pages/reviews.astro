@@ -1,0 +1,65 @@
+---
+import { Star } from '@lucide/astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site, reviews, recentJobs } from '../data/site';
+---
+
+<BaseLayout
+  title={`Customer Reviews | ${site.shortName}`}
+  description={`Read ${site.rating.value}-star reviews from Plant City and Tampa Bay homeowners. Real jobs, real neighborhoods.`}
+>
+  <section class="bg-[#1C1D17] text-[#EEEDEA] py-20">
+    <div class="container-site text-center">
+      <div class="flex justify-center gap-1 text-yellow-400 mb-4">
+        {[1, 2, 3, 4, 5].map(() => <Star class="fill-current h-8 w-8" />)}
+      </div>
+      <h1 class="text-4xl lg:text-6xl font-heading mb-6 text-white">CUSTOMER REVIEWS</h1>
+      <p class="text-xl text-white/90">
+        {site.rating.value} stars from {site.rating.count}+ local clients
+      </p>
+    </div>
+  </section>
+
+  <section class="py-20">
+    <div class="container-site">
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
+        {
+          reviews.map((review) => (
+            <div class="bg-muted p-8 rounded-xl">
+              <div class="flex gap-1 text-yellow-400 mb-4">
+                {[1, 2, 3, 4, 5].map(() => <Star class="fill-current h-4 w-4" />)}
+              </div>
+              <p class="text-lg mb-6">"{review.text}"</p>
+              <p class="font-bold font-heading text-xl normal-case tracking-normal">
+                {review.name}
+                <span class="block text-sm font-sans font-medium text-muted-foreground"
+                  >{review.city}, FL</span
+                >
+              </p>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-3xl font-heading mb-8 text-center">Neighborhood Proof — Recent Jobs</h2>
+        <div class="grid sm:grid-cols-2 gap-6">
+          {
+            recentJobs.map((job) => (
+              <div class="bg-card border border-border rounded-xl p-6">
+                <p class="text-primary font-bold text-sm uppercase mb-2">{job.response} response</p>
+                <h3 class="text-xl font-heading mb-2 normal-case tracking-normal">{job.title}</h3>
+                <p class="text-muted-foreground">
+                  {job.neighborhood}, {job.city} · {job.service}
+                </p>
+              </div>
+            ))
+          }
+        </div>
+        <div class="text-center mt-12">
+          <a href="/contact" class="btn btn-lg btn-primary">Request Your Free Estimate</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

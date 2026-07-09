@@ -1,0 +1,123 @@
+---
+import { Phone, Mail, MapPin, Clock, ShieldCheck } from '@lucide/astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import QuoteForm from '../components/forms/QuoteForm.astro';
+import { site } from '../data/site';
+---
+
+<BaseLayout
+  title={`Contact ${site.shortName} | Free Tree Service Estimate`}
+  description="Need a tree removed or trimmed? Call us 24/7 or request a free estimate. We respond fast across Plant City and Tampa Bay."
+  schema={{
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}/` },
+      { '@type': 'ListItem', position: 2, name: 'Contact', item: `${site.url}/contact` },
+    ],
+  }}
+>
+  <section class="bg-[#1C1D17] text-[#EEEDEA] py-20 lg:py-32">
+    <div class="container-site text-center">
+      <h1 class="text-4xl lg:text-6xl font-heading mb-6 text-white">CONTACT US</h1>
+      <p class="text-xl lg:text-2xl text-white/90 font-medium max-w-2xl mx-auto">
+        Need a tree removed or trimmed? Call us 24/7 or request a free estimate below. We respond
+        fast.
+      </p>
+    </div>
+  </section>
+
+  <section class="py-20">
+    <div class="container-site max-w-6xl">
+      <div class="grid lg:grid-cols-2 gap-16">
+        <div>
+          <h2 class="text-3xl font-heading mb-8">Get In Touch</h2>
+
+          <div class="space-y-8 mb-12">
+            <div class="flex items-start gap-4">
+              <div
+                class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center shrink-0"
+              >
+                <Phone class="h-6 w-6 text-primary" />
+              </div>
+              <div>
+                <h3 class="font-bold text-lg mb-1">Phone (24/7)</h3>
+                <a
+                  href={`tel:${site.phoneTel}`}
+                  class="text-2xl font-bold text-primary hover:underline">{site.phone}</a
+                >
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <div
+                class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center shrink-0"
+              >
+                <Mail class="h-6 w-6 text-primary" />
+              </div>
+              <div>
+                <h3 class="font-bold text-lg mb-1">Email</h3>
+                <a
+                  href={`mailto:${site.email}`}
+                  class="text-lg hover:text-primary transition-colors">{site.email}</a
+                >
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <div
+                class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center shrink-0"
+              >
+                <MapPin class="h-6 w-6 text-primary" />
+              </div>
+              <div>
+                <h3 class="font-bold text-lg mb-1">Location</h3>
+                <p class="text-lg">
+                  {site.address.street}<br />
+                  {site.address.city}, {site.address.state} {site.address.zip}
+                </p>
+                <a
+                  href={site.mapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-primary font-semibold hover:underline text-sm"
+                  >Open in Google Maps</a
+                >
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <div
+                class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center shrink-0"
+              >
+                <Clock class="h-6 w-6 text-primary" />
+              </div>
+              <div>
+                <h3 class="font-bold text-lg mb-1">Hours</h3>
+                <p class="text-lg font-bold text-accent">{site.hours.label}</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <div
+                class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center shrink-0"
+              >
+                <ShieldCheck class="h-6 w-6 text-primary" />
+              </div>
+              <div>
+                <h3 class="font-bold text-lg mb-1">License & Insurance</h3>
+                <p class="text-lg">{site.credentials.license}</p>
+                <p class="text-lg">{site.credentials.insurance}</p>
+                <p class="text-sm text-muted-foreground mt-1">{site.credentials.note}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <QuoteForm source="contact-page" />
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

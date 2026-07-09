@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+---
+
+<BaseLayout title={`Privacy Policy | ${site.name}`} description="Privacy policy for You Care We Care Tree Service.">
+  <section class="bg-[#1C1D17] text-[#EEEDEA] py-16">
+    <div class="container-site"><h1 class="text-4xl font-heading text-white">Privacy Policy</h1></div>
+  </section>
+  <section class="py-16">
+    <div class="container-site max-w-3xl space-y-4 text-muted-foreground">
+      <p>
+        {site.name} collects contact information you submit through our estimate form (name, phone,
+        ZIP, service interest, and optional message) so we can respond to your request.
+      </p>
+      <p>
+        When a GoHighLevel webhook URL is configured, form submissions are sent to that endpoint for
+        CRM follow-up. We do not sell your information.
+      </p>
+      <p>
+        Questions? Email <a href={`mailto:${site.email}`} class="text-primary hover:underline"
+          >{site.email}</a
+        > or call {site.phone}.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

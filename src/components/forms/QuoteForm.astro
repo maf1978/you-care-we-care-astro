@@ -1,0 +1,172 @@
+---
+import { site, services } from '../../data/site';
+
+interface Props {
+  compact?: boolean;
+  source?: string;
+}
+
+const { compact = false, source = 'website' } = Astro.props;
+const formId = `quote-form-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<div
+  class:list={[
+    'bg-card rounded-xl shadow-xl border-t-4 border-primary text-foreground',
+    compact ? 'p-5' : 'p-6 md:p-8',
+  ]}
+  data-quote-form-root
+>
+  <div class="mb-6" data-form-intro>
+    <h3 class="text-2xl font-heading mb-2 normal-case tracking-normal">Request your free estimate</h3>
+    <p class="text-sm text-muted-foreground font-semibold">
+      We respond fast — 24/7 for emergencies.
+    </p>
+  </div>
+
+  <div class="hidden text-center" data-form-success role="status" aria-live="polite">
+    <h3 class="text-2xl font-heading mb-4 normal-case tracking-normal">Request Sent!</h3>
+    <p class="text-muted-foreground mb-6">
+      We respond fast. We'll be in touch shortly with your free estimate.
+    </p>
+    <button type="button" class="btn btn-md btn-primary" data-form-reset>Send Another Request</button>
+  </div>
+
+  <form id={formId} class="space-y-4" data-quote-form novalidate>
+    <input type="hidden" name="source" value={source} />
+    <input type="hidden" name="business" value={site.name} />
+
+    <div class="space-y-2">
+      <label for={`${formId}-name`} class="text-sm font-medium">Name</label>
+      <input
+        id={`${formId}-name`}
+        name="name"
+        required
+        placeholder="John Doe"
+        class="input-field"
+        autocomplete="name"
+      />
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+      <div class="space-y-2">
+        <label for={`${formId}-phone`} class="text-sm font-medium">Phone</label>
+        <input
+          id={`${formId}-phone`}
+          name="phone"
+          type="tel"
+          required
+          placeholder="(813) 555-0123"
+          class="input-field"
+          autocomplete="tel"
+        />
+      </div>
+      <div class="space-y-2">
+        <label for={`${formId}-zip`} class="text-sm font-medium">ZIP Code</label>
+        <input
+          id={`${formId}-zip`}
+          name="zip"
+          required
+          placeholder="33565"
+          class="input-field"
+          autocomplete="postal-code"
+        />
+      </div>
+    </div>
+
+    <div class="space-y-2">
+      <label for={`${formId}-service`} class="text-sm font-medium">Service Needed</label>
+      <select id={`${formId}-service`} name="service" required class="input-field">
+        <option value="" disabled selected>Select a service</option>
+        {services.map((s) => <option value={s.slug}>{s.title}</option>)}
+      </select>
+    </div>
+
+    <div class="space-y-2">
+      <label for={`${formId}-message`} class="text-sm font-medium">Message (Optional)</label>
+      <textarea
+        id={`${formId}-message`}
+        name="message"
+        placeholder="Tell us about the trees..."
+        class="textarea-field"
+        rows="3"></textarea>
+    </div>
+
+    <p class="text-xs text-muted-foreground hidden" data-form-error role="alert"></p>
+
+    <button type="submit" class="btn btn-lg btn-primary w-full" data-form-submit>
+      Get Free Estimate
+    </button>
+  </form>
+</div>
+
+<script>
+  const webhookUrl = import.meta.env.PUBLIC_GHL_WEBHOOK_URL as string | undefined;
+
+  document.querySelectorAll<HTMLElement>('[data-quote-form-root]').forEach((root) => {
+    const form = root.querySelector<HTMLFormElement>('[data-quote-form]');
+    const intro = root.querySelector('[data-form-intro]');
+    const success = root.querySelector('[data-form-success]');
+    const errorEl = root.querySelector<HTMLElement>('[data-form-error]');
+    const resetBtn = root.querySelector('[data-form-reset]');
+    const submitBtn = root.querySelector<HTMLButtonElement>('[data-form-submit]');
+
+    if (!form) return;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (errorEl) {
+        errorEl.classList.add('hidden');
+        errorEl.textContent = '';
+      }
+
+      const data = Object.fromEntries(new FormData(form).entries());
+      const payload = {
+        ...data,
+        submittedAt: new Date().toISOString(),
+        pageUrl: window.location.href,
+      };
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending...';
+      }
+
+      try {
+        if (webhookUrl) {
+          const res = await fetch(webhookUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          if (!res.ok) throw new Error('Webhook failed');
+        } else {
+          // Preview mode: log payload until PUBLIC_GHL_WEBHOOK_URL is set
+          console.info('[QuoteForm] Preview submit (no webhook configured)', payload);
+        }
+
+        form.classList.add('hidden');
+        intro?.classList.add('hidden');
+        success?.classList.remove('hidden');
+        form.reset();
+      } catch {
+        if (errorEl) {
+          errorEl.textContent =
+            'Something went wrong. Please call us or try again in a moment.';
+          errorEl.classList.remove('hidden');
+        }
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Get Free Estimate';
+        }
+      }
+    });
+
+    resetBtn?.addEventListener('click', () => {
+      success?.classList.add('hidden');
+      intro?.classList.remove('hidden');
+      form.classList.remove('hidden');
+    });
+  });
+</script>
