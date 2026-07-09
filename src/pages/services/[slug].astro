@@ -3,6 +3,7 @@ import { Phone, CheckCircle2, Star, ChevronRight } from '@lucide/astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import QuoteForm from '../../components/forms/QuoteForm.astro';
 import { site, services, locations, getService, reviews } from '../../data/site';
+import { absoluteAsset, absoluteUrl, breadcrumbSchema } from '../../lib/seo';
 
 export function getStaticPaths() {
   return services.map((service) => ({
@@ -14,7 +15,7 @@ const { slug } = Astro.params;
 const service = getService(slug!);
 
 if (!service) {
-  return Astro.redirect('/404');
+  return Astro.redirect('/404/');
 }
 
 const serviceReviews = reviews.slice(0, 2);
@@ -22,36 +23,42 @@ const serviceReviews = reviews.slice(0, 2);
 const serviceSchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
+  '@id': absoluteUrl(`/services/${service.slug}/`),
+  name: service.title,
   serviceType: service.title,
+  description: service.description,
+  image: absoluteAsset(service.image),
+  url: absoluteUrl(`/services/${service.slug}/`),
   provider: {
     '@type': 'HomeAndConstructionBusiness',
+    '@id': `${site.url}/#business`,
     name: site.name,
     telephone: site.phoneTel,
+    url: `${site.url}/`,
   },
-  areaServed: { '@type': 'City', name: 'Plant City, FL' },
-  description: service.description,
+  areaServed: locations.map((l) => ({
+    '@type': 'City',
+    name: `${l.city}, FL`,
+  })),
+  offers: {
+    '@type': 'Offer',
+    priceCurrency: 'USD',
+    availability: 'https://schema.org/InStock',
+    description: 'Free on-site estimate',
+  },
 };
 
-const breadcrumbSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}/` },
-    { '@type': 'ListItem', position: 2, name: 'Services', item: `${site.url}/services` },
-    {
-      '@type': 'ListItem',
-      position: 3,
-      name: service.title,
-      item: `${site.url}/services/${service.slug}`,
-    },
-  ],
-};
+const crumbs = breadcrumbSchema([
+  { name: 'Home', path: '/' },
+  { name: 'Services', path: '/services/' },
+  { name: service.title, path: `/services/${service.slug}/` },
+]);
 
 const title = `${service.title} in Plant City, FL & Tampa Bay | ${site.shortName}`;
 const description = `${service.hook} Free estimates. ${site.credentials.insurance}. Call ${site.phone}.`;
 ---
 
-<BaseLayout title={title} description={description} schema={[serviceSchema, breadcrumbSchema]} preloadImage={service.image}>
+<BaseLayout title={title} description={description} schema={[serviceSchema, crumbs]} preloadImage={service.image}>
   <section class="bg-[#1C1D17] text-[#EEEDEA] py-20 lg:py-32 relative overflow-hidden">
     <div class="absolute inset-0 opacity-30">
       <img
@@ -70,7 +77,7 @@ const description = `${service.hook} Free estimates. ${site.credentials.insuranc
         <div class="flex items-center gap-2 text-primary font-bold uppercase tracking-wider mb-4 text-sm">
           <a href="/" class="hover:text-white transition-colors">Home</a>
           <ChevronRight class="h-4 w-4" />
-          <a href="/services" class="hover:text-white transition-colors">Services</a>
+          <a href="/services/" class="hover:text-white transition-colors">Services</a>
           <ChevronRight class="h-4 w-4" />
           <span class="text-white">{service.title}</span>
         </div>
@@ -130,7 +137,7 @@ const description = `${service.hook} Free estimates. ${site.credentials.insuranc
           <h2 class="text-3xl font-heading mb-4">What Affects the Price?</h2>
           <p class="text-lg text-muted-foreground leading-relaxed mb-4">{service.priceFactors}</p>
           <a
-            href="/pricing/tree-removal-cost-plant-city"
+            href="/pricing/tree-removal-cost-plant-city/"
             class="text-primary font-bold hover:underline"
           >
             See our full pricing guide →
@@ -161,21 +168,21 @@ const description = `${service.hook} Free estimates. ${site.credentials.insuranc
           <ul class="space-y-3 text-muted-foreground">
             <li>
               Need it done in your city?
-              <a href="/areas/plant-city" class="text-primary font-semibold hover:underline"
+              <a href="/areas/plant-city/" class="text-primary font-semibold hover:underline"
                 >Check service areas</a
               >
             </li>
             <li>
               Comparing companies?
               <a
-                href="/compare/local-vs-national-tree-service"
+                href="/compare/local-vs-national-tree-service/"
                 class="text-primary font-semibold hover:underline">Local vs national</a
               >
             </li>
             <li>
               Not sure if it's urgent?
               <a
-                href="/problems/leaning-tree-vs-storm-damage"
+                href="/problems/leaning-tree-vs-storm-damage/"
                 class="text-primary font-semibold hover:underline">Problem guide</a
               >
             </li>
@@ -193,7 +200,7 @@ const description = `${service.hook} Free estimates. ${site.credentials.insuranc
               locations.slice(0, 5).map((area) => (
                 <li>
                   <a
-                    href={`/areas/${area.slug}`}
+                    href={`/areas/${area.slug}/`}
                     class="hover:text-primary transition-colors flex items-center gap-2"
                   >
                     <ChevronRight class="h-4 w-4 text-primary" /> {area.city}
@@ -202,7 +209,7 @@ const description = `${service.hook} Free estimates. ${site.credentials.insuranc
               ))
             }
           </ul>
-          <a href="/areas" class="btn btn-md btn-ghost-light w-full mt-6">View All Areas</a>
+          <a href="/areas/" class="btn btn-md btn-ghost-light w-full mt-6">View All Areas</a>
         </div>
       </div>
     </div>

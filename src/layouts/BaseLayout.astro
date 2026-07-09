@@ -5,6 +5,7 @@ import '@fontsource/inter/700.css';
 import '@fontsource/anton/400.css';
 import '../styles/global.css';
 import { site } from '../data/site';
+import { absoluteAsset, absoluteUrl, withTrailingSlash } from '../lib/seo';
 import Navbar from '../components/layout/Navbar.astro';
 import Footer from '../components/layout/Footer.astro';
 import MobileCTABar from '../components/layout/MobileCTABar.astro';
@@ -29,38 +30,61 @@ const {
   preloadImage,
 } = Astro.props;
 
+const path = withTrailingSlash(Astro.url.pathname);
 const canonicalUrl = canonical
-  ? new URL(canonical, site.url).toString()
-  : new URL(Astro.url.pathname, site.url).toString();
+  ? absoluteUrl(canonical)
+  : absoluteUrl(path);
 
-const ogImageUrl = ogImage.startsWith('http')
-  ? ogImage
-  : new URL(ogImage, site.url).toString();
+const ogImageUrl = absoluteAsset(ogImage);
 
 const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en-US">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="author" content={site.name} />
-    {noindex && <meta name="robots" content="noindex,nofollow" />}
+    <meta name="geo.region" content="US-FL" />
+    <meta name="geo.placename" content="Plant City" />
+    <meta name="geo.position" content="28.0189;-82.1201" />
+    <meta name="ICBM" content="28.0189, -82.1201" />
+    {
+      noindex ? (
+        <meta name="robots" content="noindex,nofollow" />
+      ) : (
+        <meta
+          name="robots"
+          content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+        />
+      )
+    }
+    <meta name="googlebot" content={noindex ? 'noindex,nofollow' : 'index, follow'} />
     <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM information" />
     {
       preloadImage && (
-        <link rel="preload" as="image" href={preloadImage} type="image/webp" fetchpriority="high" />
+        <link
+          rel="preload"
+          as="image"
+          href={preloadImage}
+          type="image/webp"
+          fetchpriority="high"
+        />
       )
     }
 
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:alt" content={`${site.name} — tree service in Plant City, FL`} />
     <meta property="og:url" content={canonicalUrl} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />

@@ -1,0 +1,11 @@
+# Force trailing slash + sitemap alias (Cloudflare Pages / Workers Assets)
+/sitemap.xml /sitemap-index.xml 301
+/services /services/ 301
+/areas /areas/ 301
+/contact /contact/ 301
+/about /about/ 301
+/reviews /reviews/ 301
+/resources /resources/ 301
+/accessibility /accessibility/ 301
+/privacy /privacy/ 301
+/terms /terms/ 301

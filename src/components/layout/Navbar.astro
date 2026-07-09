@@ -26,7 +26,7 @@ const navAreas = locations.filter((l) => !l.isHq);
 
       <div class="relative group">
         <a
-          href="/services"
+          href="/services/"
           class="text-sm font-semibold hover:text-primary transition-colors inline-flex items-center gap-1"
         >
           Services <ChevronDown class="h-4 w-4" />
@@ -37,7 +37,7 @@ const navAreas = locations.filter((l) => !l.isHq);
           {
             navServices.map((service) => (
               <a
-                href={`/services/${service.slug}`}
+                href={`/services/${service.slug}/`}
                 class="block px-4 py-2 text-sm hover:bg-muted hover:text-primary transition-colors"
               >
                 {service.title}
@@ -49,7 +49,7 @@ const navAreas = locations.filter((l) => !l.isHq);
 
       <div class="relative group">
         <a
-          href="/areas"
+          href="/areas/"
           class="text-sm font-semibold hover:text-primary transition-colors inline-flex items-center gap-1"
         >
           Service Areas <ChevronDown class="h-4 w-4" />
@@ -60,7 +60,7 @@ const navAreas = locations.filter((l) => !l.isHq);
           {
             navAreas.map((area) => (
               <a
-                href={`/areas/${area.slug}`}
+                href={`/areas/${area.slug}/`}
                 class="block px-4 py-2 text-sm hover:bg-muted hover:text-primary transition-colors"
               >
                 {area.city}
@@ -70,9 +70,9 @@ const navAreas = locations.filter((l) => !l.isHq);
         </div>
       </div>
 
-      <a href="/about" class="text-sm font-semibold hover:text-primary transition-colors">About</a>
-      <a href="/reviews" class="text-sm font-semibold hover:text-primary transition-colors">Reviews</a>
-      <a href="/resources" class="text-sm font-semibold hover:text-primary transition-colors">Guides</a>
+      <a href="/about/" class="text-sm font-semibold hover:text-primary transition-colors">About</a>
+      <a href="/reviews/" class="text-sm font-semibold hover:text-primary transition-colors">Reviews</a>
+      <a href="/resources/" class="text-sm font-semibold hover:text-primary transition-colors">Guides</a>
     </nav>
 
     <div class="hidden lg:flex items-center gap-4">
@@ -83,7 +83,7 @@ const navAreas = locations.filter((l) => !l.isHq);
         <Phone class="h-5 w-5" />
         {site.phone}
       </a>
-      <a href="/contact" class="btn btn-md btn-primary">Get a Fast Quote</a>
+      <a href="/contact/" class="btn btn-md btn-primary">Get a Fast Quote</a>
     </div>
 
     <div class="lg:hidden flex items-center gap-4">
@@ -112,12 +112,12 @@ const navAreas = locations.filter((l) => !l.isHq);
       <a href="/" class="text-lg font-semibold py-2 border-b border-border" data-nav-close>Home</a>
 
       <div class="py-2 border-b border-border">
-        <a href="/services" class="text-lg font-semibold mb-2 block" data-nav-close>Services</a>
+        <a href="/services/" class="text-lg font-semibold mb-2 block" data-nav-close>Services</a>
         <div class="pl-4 flex flex-col gap-2">
           {
             navServices.map((service) => (
               <a
-                href={`/services/${service.slug}`}
+                href={`/services/${service.slug}/`}
                 class="text-muted-foreground"
                 data-nav-close
               >
@@ -129,11 +129,11 @@ const navAreas = locations.filter((l) => !l.isHq);
       </div>
 
       <div class="py-2 border-b border-border">
-        <a href="/areas" class="text-lg font-semibold mb-2 block" data-nav-close>Service Areas</a>
+        <a href="/areas/" class="text-lg font-semibold mb-2 block" data-nav-close>Service Areas</a>
         <div class="pl-4 flex flex-col gap-2">
           {
             locations.map((area) => (
-              <a href={`/areas/${area.slug}`} class="text-muted-foreground" data-nav-close>
+              <a href={`/areas/${area.slug}/`} class="text-muted-foreground" data-nav-close>
                 {area.city}
                 {area.isHq ? ' (HQ)' : ''}
               </a>
@@ -142,10 +142,10 @@ const navAreas = locations.filter((l) => !l.isHq);
         </div>
       </div>
 
-      <a href="/about" class="text-lg font-semibold py-2 border-b border-border" data-nav-close>About</a>
-      <a href="/reviews" class="text-lg font-semibold py-2 border-b border-border" data-nav-close>Reviews</a>
-      <a href="/resources" class="text-lg font-semibold py-2 border-b border-border" data-nav-close>Guides</a>
-      <a href="/contact" class="text-lg font-semibold py-2 border-b border-border" data-nav-close>Contact</a>
+      <a href="/about/" class="text-lg font-semibold py-2 border-b border-border" data-nav-close>About</a>
+      <a href="/reviews/" class="text-lg font-semibold py-2 border-b border-border" data-nav-close>Reviews</a>
+      <a href="/resources/" class="text-lg font-semibold py-2 border-b border-border" data-nav-close>Guides</a>
+      <a href="/contact/" class="text-lg font-semibold py-2 border-b border-border" data-nav-close>Contact</a>
     </div>
   </div>
 </header>

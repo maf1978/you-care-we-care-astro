@@ -3,19 +3,16 @@ import { Phone, Mail, MapPin, Clock, ShieldCheck } from '@lucide/astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import QuoteForm from '../components/forms/QuoteForm.astro';
 import { site } from '../data/site';
+import { breadcrumbSchema } from '../lib/seo';
 ---
 
 <BaseLayout
   title={`Contact ${site.shortName} | Free Tree Service Estimate`}
   description="Need a tree removed or trimmed? Call us 24/7 or request a free estimate. We respond fast across Plant City and Tampa Bay."
-  schema={{
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}/` },
-      { '@type': 'ListItem', position: 2, name: 'Contact', item: `${site.url}/contact` },
-    ],
-  }}
+  schema={breadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Contact', path: '/contact/' },
+  ])}
 >
   <section class="bg-[#1C1D17] text-[#EEEDEA] py-20 lg:py-32">
     <div class="container-site text-center">

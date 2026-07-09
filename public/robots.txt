@@ -1,4 +1,45 @@
+# You Care We Care Tree Service — crawl rules
+# Production domain: https://youcarewecaretreeservice.com
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Allow AI citation / browsing (GEO). Block training-only bots below if desired.
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+# Optional: block model-training crawlers (does not block Google Search / AI Overviews)
+User-agent: GPTBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
 User-agent: *
 Allow: /
+
+# Thin / utility pages — still crawlable; sitemap omits some
+Disallow: /api/
 
 Sitemap: https://youcarewecaretreeservice.com/sitemap-index.xml

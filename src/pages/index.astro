@@ -1,49 +1,13 @@
 ---
 import { Star, CheckCircle2, Phone, ShieldCheck, Clock, MapPin, Trees } from '@lucide/astro';
 import { site, services, reviews, faqs, locations, recentJobs } from '../data/site';
+import { localBusinessSchema, websiteSchema } from '../lib/seo';
 import QuoteForm from '../components/forms/QuoteForm.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const featuredServices = services.filter((s) => s.featured).slice(0, 4);
 const homeReviews = reviews.slice(0, 3);
 const areaPreview = locations.slice(0, 8);
-
-const localBusinessSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'HomeAndConstructionBusiness',
-  name: site.name,
-  image: site.ogImage,
-  '@id': `${site.url}/`,
-  url: site.url,
-  telephone: site.phoneTel,
-  email: site.email,
-  priceRange: site.priceRange,
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: site.address.street,
-    addressLocality: site.address.city,
-    addressRegion: site.address.state,
-    postalCode: site.address.zip,
-    addressCountry: site.address.country,
-  },
-  openingHoursSpecification: [
-    {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: site.hours.schema.days,
-      opens: site.hours.schema.opens,
-      closes: site.hours.schema.closes,
-      description: site.hours.label,
-    },
-  ],
-  areaServed: locations.map((l) => ({ '@type': 'City', name: l.city })),
-  aggregateRating: {
-    '@type': 'AggregateRating',
-    ratingValue: site.rating.value,
-    reviewCount: String(site.rating.count),
-  },
-  sameAs: [site.facebookUrl, site.googleBusinessUrl],
-  additionalType: 'https://www.productontology.org/id/Tree_care',
-};
 
 const faqSchema = {
   '@context': 'https://schema.org',
@@ -56,7 +20,10 @@ const faqSchema = {
 };
 ---
 
-<BaseLayout schema={[localBusinessSchema, faqSchema]} preloadImage={site.heroImage}>
+<BaseLayout
+  schema={[localBusinessSchema(), websiteSchema(), faqSchema]}
+  preloadImage={site.heroImage}
+>
   <!-- Hero -->
   <section class="relative bg-[#1C1D17] text-[#EEEDEA] pt-20 pb-32 lg:pt-32 lg:pb-48 overflow-hidden">
     <div class="absolute inset-0 opacity-40">
@@ -108,7 +75,7 @@ const faqSchema = {
             <a href={`tel:${site.phoneTel}`} class="btn btn-lg btn-primary">
               <Phone class="h-5 w-5" /> Call {site.phone}
             </a>
-            <a href="/contact" class="btn btn-lg btn-secondary">Get a Fast Quote</a>
+            <a href="/contact/" class="btn btn-lg btn-secondary">Get a Fast Quote</a>
           </div>
         </div>
 
@@ -207,7 +174,7 @@ const faqSchema = {
               </div>
             </li>
           </ul>
-          <a href="/about" class="btn btn-lg btn-primary">More About Us</a>
+          <a href="/about/" class="btn btn-lg btn-primary">More About Us</a>
         </div>
       </div>
     </div>
@@ -243,7 +210,7 @@ const faqSchema = {
                 <h3 class="text-2xl font-heading mb-3">{service.title}</h3>
                 <p class="text-muted-foreground mb-6 flex-1">{service.shortDescription}</p>
                 <a
-                  href={`/services/${service.slug}`}
+                  href={`/services/${service.slug}/`}
                   class="btn btn-md btn-outline w-full group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary"
                 >
                   Learn More
@@ -255,7 +222,7 @@ const faqSchema = {
       </div>
 
       <div class="text-center mt-12">
-        <a href="/services" class="btn btn-lg btn-primary">View All Services</a>
+        <a href="/services/" class="btn btn-lg btn-primary">View All Services</a>
       </div>
     </div>
   </section>
@@ -286,7 +253,7 @@ const faqSchema = {
         }
       </div>
       <div class="text-center mt-10">
-        <a href="/reviews" class="btn btn-md btn-outline">See Customer Reviews</a>
+        <a href="/reviews/" class="btn btn-md btn-outline">See Customer Reviews</a>
       </div>
     </div>
   </section>
@@ -389,7 +356,7 @@ const faqSchema = {
             {
               areaPreview.map((area) => (
                 <a
-                  href={`/areas/${area.slug}`}
+                  href={`/areas/${area.slug}/`}
                   class="flex items-center gap-2 hover:text-primary transition-colors"
                 >
                   <MapPin class="h-5 w-5 text-primary" /> {area.city}
@@ -431,7 +398,7 @@ const faqSchema = {
       </div>
       <div class="grid md:grid-cols-3 gap-8">
         <a
-          href="/pricing/tree-removal-cost-plant-city"
+          href="/pricing/tree-removal-cost-plant-city/"
           class="bg-card border border-border rounded-xl p-8 hover:border-primary transition-colors shadow-sm"
         >
           <p class="text-primary font-bold uppercase text-sm mb-2">How much will it cost?</p>
@@ -441,7 +408,7 @@ const faqSchema = {
           </p>
         </a>
         <a
-          href="/compare/local-vs-national-tree-service"
+          href="/compare/local-vs-national-tree-service/"
           class="bg-card border border-border rounded-xl p-8 hover:border-primary transition-colors shadow-sm"
         >
           <p class="text-primary font-bold uppercase text-sm mb-2">Why choose us?</p>
@@ -451,7 +418,7 @@ const faqSchema = {
           </p>
         </a>
         <a
-          href="/problems/leaning-tree-vs-storm-damage"
+          href="/problems/leaning-tree-vs-storm-damage/"
           class="bg-card border border-border rounded-xl p-8 hover:border-primary transition-colors shadow-sm"
         >
           <p class="text-primary font-bold uppercase text-sm mb-2">What's causing this?</p>
@@ -501,7 +468,7 @@ const faqSchema = {
           <Phone class="h-6 w-6" />
           {site.phone}
         </a>
-        <a href="/contact" class="btn btn-xl btn-dark">Get a Fast Quote</a>
+        <a href="/contact/" class="btn btn-xl btn-dark">Get a Fast Quote</a>
       </div>
     </div>
   </section>

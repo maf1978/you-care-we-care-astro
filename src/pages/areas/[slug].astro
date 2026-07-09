@@ -10,6 +10,7 @@ import {
   reviews,
   recentJobs,
 } from '../../data/site';
+import { breadcrumbSchema } from '../../lib/seo';
 
 export function getStaticPaths() {
   return locations.map((location) => ({
@@ -21,7 +22,7 @@ const { slug } = Astro.params;
 const area = getLocation(slug!);
 
 if (!area) {
-  return Astro.redirect('/404');
+  return Astro.redirect('/404/');
 }
 
 const areaJobs = recentJobs.filter(
@@ -32,26 +33,17 @@ const displayJobs =
     ? areaJobs
     : recentJobs.slice(0, 2).map((j) => ({ ...j, city: area.city }));
 
-const breadcrumbSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}/` },
-    { '@type': 'ListItem', position: 2, name: 'Service Areas', item: `${site.url}/areas` },
-    {
-      '@type': 'ListItem',
-      position: 3,
-      name: area.city,
-      item: `${site.url}/areas/${area.slug}`,
-    },
-  ],
-};
+const crumbs = breadcrumbSchema([
+  { name: 'Home', path: '/' },
+  { name: 'Service Areas', path: '/areas/' },
+  { name: area.city, path: `/areas/${area.slug}/` },
+]);
 
 const title = `Tree Removal in ${area.city}, FL | ${site.shortName}`;
 const description = `${area.hook} Free estimates, 24/7 emergency response. Serving ${area.neighborhoods.join(', ')}.`;
 ---
 
-<BaseLayout title={title} description={description} schema={breadcrumbSchema} preloadImage={site.heroImage}>
+<BaseLayout title={title} description={description} schema={crumbs} preloadImage={site.heroImage}>
   <section class="bg-[#1C1D17] text-[#EEEDEA] py-20 lg:py-32 relative overflow-hidden">
     <div class="absolute inset-0 opacity-30">
       <img
@@ -70,7 +62,7 @@ const description = `${area.hook} Free estimates, 24/7 emergency response. Servi
         <div class="flex items-center gap-2 text-primary font-bold uppercase tracking-wider mb-4 text-sm">
           <a href="/" class="hover:text-white transition-colors">Home</a>
           <ChevronRight class="h-4 w-4" />
-          <a href="/areas" class="hover:text-white transition-colors">Service Areas</a>
+          <a href="/areas/" class="hover:text-white transition-colors">Service Areas</a>
           <ChevronRight class="h-4 w-4" />
           <span class="text-white">{area.city}</span>
         </div>
@@ -143,7 +135,7 @@ const description = `${area.hook} Free estimates, 24/7 emergency response. Servi
             {
               services.map((service) => (
                 <a
-                  href={`/services/${service.slug}`}
+                  href={`/services/${service.slug}/`}
                   class="flex items-center gap-3 p-4 bg-card rounded-lg hover:border-primary border border-transparent transition-colors shadow-sm"
                 >
                   <MapPin class="h-5 w-5 text-primary shrink-0" />
@@ -178,21 +170,21 @@ const description = `${area.hook} Free estimates, 24/7 emergency response. Servi
           <ul class="space-y-3">
             <li>
               <a
-                href="/pricing/tree-removal-cost-plant-city"
+                href="/pricing/tree-removal-cost-plant-city/"
                 class="text-primary font-semibold hover:underline"
                 >How much does tree removal cost?</a
               >
             </li>
             <li>
               <a
-                href="/compare/local-vs-national-tree-service"
+                href="/compare/local-vs-national-tree-service/"
                 class="text-primary font-semibold hover:underline"
                 >Why choose a local crew over a national brand?</a
               >
             </li>
             <li>
               <a
-                href="/problems/leaning-tree-vs-storm-damage"
+                href="/problems/leaning-tree-vs-storm-damage/"
                 class="text-primary font-semibold hover:underline"
                 >Is my tree an emergency?</a
               >

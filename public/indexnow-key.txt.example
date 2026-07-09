@@ -1,0 +1,4 @@
+# Replace YOUR_INDEXNOW_KEY with a UUID from https://www.indexnow.org / Bing Webmaster
+# Then rename this file to YOUR_INDEXNOW_KEY.txt and set INDEXNOW_KEY in deploy env.
+# Example key file path: /public/<uuid>.txt containing only the uuid.
+PLACEHOLDER_INDEXNOW_KEY_REPLACE_ME

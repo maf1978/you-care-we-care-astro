@@ -41,6 +41,25 @@ This site is designed to meet WCAG 2.1 Level AA:
 
 See the `home-services-astro-builder` skill reference `accessibility-wcag.md` for the full checklist used on future builds.
 
+## Technical SEO (Google-ready)
+
+Built-in for ranking / crawlability:
+- Trailing-slash URLs (`trailingSlash: always`) + redirects
+- XML sitemap with priorities (`/sitemap-index.xml`)
+- `robots.txt` with AI crawler policy + sitemap reference
+- `/llms.txt` for AI citation systems
+- LocalBusiness + WebSite + Service + FAQ + Breadcrumb JSON-LD
+- Canonical, robots, Open Graph, geo meta on every page
+- Security headers via `public/_headers` (Workers/Pages) and `netlify.toml`
+
+### Post-launch Google checklist
+1. Connect domain `youcarewecaretreeservice.com` to this deploy
+2. Google Search Console → add property → submit `https://youcarewecaretreeservice.com/sitemap-index.xml`
+3. Bing Webmaster Tools → submit same sitemap (optional IndexNow key)
+4. Link Google Business Profile website URL to the live domain
+5. Replace mock license/insurance + confirm exact lat/long in `src/lib/seo.ts`
+6. Request indexing for Home, top services, and Plant City area page
+
 ## Before launch — replace these
 
 1. **Logo / photos** — optimized WebP files live in `public/images/` (replace with final client assets as needed)

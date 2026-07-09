@@ -1,0 +1,8 @@
+name = "you-care-we-care-astro"
+compatibility_date = "2026-07-01"
+
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+not_found_handling = "404-page"
+html_handling = "force-trailing-slash"

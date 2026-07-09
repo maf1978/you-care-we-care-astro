@@ -22,7 +22,7 @@ import { site, services } from '../../data/site';
         {
           services.map((service) => (
             <a
-              href={`/services/${service.slug}`}
+              href={`/services/${service.slug}/`}
               class="bg-card rounded-xl overflow-hidden shadow-lg border border-border group hover:border-primary transition-colors"
             >
               <div class="h-48 overflow-hidden">
@@ -52,11 +52,11 @@ import { site, services } from '../../data/site';
           Start with the question you're asking right now — cost, urgency, or who to hire.
         </p>
         <div class="flex flex-wrap justify-center gap-4">
-          <a href="/pricing/tree-removal-cost-plant-city" class="btn btn-md btn-outline">Pricing</a>
-          <a href="/problems/leaning-tree-vs-storm-damage" class="btn btn-md btn-outline"
+          <a href="/pricing/tree-removal-cost-plant-city/" class="btn btn-md btn-outline">Pricing</a>
+          <a href="/problems/leaning-tree-vs-storm-damage/" class="btn btn-md btn-outline"
             >Is it urgent?</a
           >
-          <a href="/contact" class="btn btn-md btn-primary">Get a Free Estimate</a>
+          <a href="/contact/" class="btn btn-md btn-primary">Get a Free Estimate</a>
         </div>
       </div>
     </div>

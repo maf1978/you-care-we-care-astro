@@ -1,19 +1,16 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../data/site';
+import { breadcrumbSchema } from '../lib/seo';
 ---
 
 <BaseLayout
   title={`About ${site.name} | Plant City Tree Service`}
   description="Led by owner CJ, You Care We Care Tree Service is Plant City's trusted choice for fast, professional tree removal and trimming."
-  schema={{
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}/` },
-      { '@type': 'ListItem', position: 2, name: 'About', item: `${site.url}/about` },
-    ],
-  }}
+  schema={breadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'About', path: '/about/' },
+  ])}
 >
   <section class="bg-[#1C1D17] text-[#EEEDEA] py-20">
     <div class="container-site text-center">
@@ -42,7 +39,7 @@ import { site } from '../data/site';
         {site.credentials.insurance}
       </p>
       <p class="text-sm text-muted-foreground mb-8">{site.credentials.note}</p>
-      <a href="/contact" class="btn btn-lg btn-primary">Contact Us Today</a>
+      <a href="/contact/" class="btn btn-lg btn-primary">Contact Us Today</a>
     </div>
   </section>
 </BaseLayout>
