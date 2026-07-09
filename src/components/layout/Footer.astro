@@ -11,9 +11,11 @@ const areaLinks = locations;
       <img
         src={site.logo}
         alt={`${site.name} Logo`}
-        class="h-20 mb-6 bg-white p-2 rounded-lg"
+        class="h-20 w-auto mb-6 bg-white p-2 rounded-lg"
         width="160"
         height="80"
+        loading="lazy"
+        decoding="async"
       />
       <p class="text-xl font-heading mb-4 text-primary">{site.tagline}</p>
       <p class="mb-2">

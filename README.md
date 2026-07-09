@@ -43,7 +43,7 @@ See the `home-services-astro-builder` skill reference `accessibility-wcag.md` fo
 
 ## Before launch — replace these
 
-1. **Logo / photos** — currently hosted on vibe.filesafe.space URLs in `src/data/site.ts`
+1. **Logo / photos** — optimized WebP files live in `public/images/` (replace with final client assets as needed)
 2. **License & insurance** — mock values in `site.credentials` (labeled as preview)
 3. **GHL webhook** — set `PUBLIC_GHL_WEBHOOK_URL` in Netlify (or `.env`) to your GoHighLevel inbound webhook; the quote form POSTs JSON:
    ```json

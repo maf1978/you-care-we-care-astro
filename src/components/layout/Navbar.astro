@@ -11,7 +11,14 @@ const navAreas = locations.filter((l) => !l.isHq);
 >
   <div class="container-site h-20 flex items-center justify-between">
     <a href="/" class="flex items-center gap-2" data-nav-close>
-      <img src={site.logo} alt={`${site.name} Logo`} class="h-16" width="160" height="64" />
+      <img
+        src={site.logo}
+        alt={`${site.name} Logo`}
+        class="h-16 w-auto"
+        width="160"
+        height="64"
+        decoding="async"
+      />
     </a>
 
     <nav class="hidden lg:flex items-center gap-8">

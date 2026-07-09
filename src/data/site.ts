@@ -43,13 +43,10 @@ export const site = {
       ],
     },
   },
-  logo: 'https://vibe.filesafe.space/1783471532929655026/attachments/3ccd02d0-b456-4d60-8fc8-71e1c980c614.png',
-  ogImage:
-    'https://vibe.filesafe.space/1783471532929655026/assets/dc7dc9ec-5dbf-47b5-8614-66e93b152f17.png',
-  teamImage:
-    'https://vibe.filesafe.space/1783471532929655026/assets/4f20d7d6-044e-48e8-9802-e1406d840896.png',
-  heroImage:
-    'https://vibe.filesafe.space/1783471532929655026/assets/a3ac6a0f-304a-41f6-97ff-5c2b7b219927.png',
+  logo: '/images/logo.webp',
+  ogImage: '/images/og.webp',
+  teamImage: '/images/team.webp',
+  heroImage: '/images/hero.webp',
   leadCapture: {
     type: 'webhook' as const,
     /** Set PUBLIC_GHL_WEBHOOK_URL in Netlify / .env when ready */
@@ -97,8 +94,7 @@ export const services = [
     ],
     priceFactors:
       "The cost of tree removal depends on the tree's size, location, accessibility, and complexity. A small, easily accessible tree costs less than a massive oak hanging over a roof. We always provide a clear, upfront free estimate before starting.",
-    image:
-      'https://vibe.filesafe.space/1783471532929655026/assets/a3ac6a0f-304a-41f6-97ff-5c2b7b219927.png',
+    image: '/images/service-removal.webp',
     featured: true,
     order: 1,
   },
@@ -136,8 +132,7 @@ export const services = [
     ],
     priceFactors:
       'Pricing is based on the size of the tree, the amount of pruning required, and accessibility. Regular maintenance is often more cost-effective than waiting for a tree to become overgrown or dangerous.',
-    image:
-      'https://vibe.filesafe.space/1783471532929655026/assets/bb6ce611-464a-4882-bcf7-8828e9728da5.png',
+    image: '/images/service-trimming.webp',
     featured: true,
     order: 2,
   },
@@ -175,8 +170,7 @@ export const services = [
     ],
     priceFactors:
       'Emergency services depend on the severity of the situation, time of day, and equipment needed. We provide honest, on-the-spot estimates even in emergencies.',
-    image:
-      'https://vibe.filesafe.space/1783471532929655026/assets/f942995f-eea5-4fd5-8cb7-e3f4261fdb89.png',
+    image: '/images/service-emergency.webp',
     featured: true,
     order: 3,
   },
@@ -214,8 +208,7 @@ export const services = [
     ],
     priceFactors:
       'Stump grinding is usually priced by the diameter of the stump. Multiple stumps often qualify for a better per-stump rate.',
-    image:
-      'https://vibe.filesafe.space/1783471532929655026/assets/c716f5c4-8264-4fdb-8181-08541bcf11ea.png',
+    image: '/images/service-stump.webp',
     featured: true,
     order: 4,
   },
@@ -253,8 +246,7 @@ export const services = [
     ],
     priceFactors:
       'Cost depends on the height of the tree, the amount of dead wood, and how difficult it is to access the branches safely.',
-    image:
-      'https://vibe.filesafe.space/1783471532929655026/assets/bb6ce611-464a-4882-bcf7-8828e9728da5.png',
+    image: '/images/service-trimming.webp',
     featured: false,
     order: 5,
   },
@@ -291,8 +283,7 @@ export const services = [
     ],
     priceFactors:
       'Pricing is based on the total linear footage and height of the hedges, as well as the time since their last trim.',
-    image:
-      'https://vibe.filesafe.space/1783471532929655026/assets/bb6ce611-464a-4882-bcf7-8828e9728da5.png',
+    image: '/images/service-trimming.webp',
     featured: false,
     order: 6,
   },

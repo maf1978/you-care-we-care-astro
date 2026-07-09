@@ -51,7 +51,7 @@ const title = `${service.title} in Plant City, FL & Tampa Bay | ${site.shortName
 const description = `${service.hook} Free estimates. ${site.credentials.insurance}. Call ${site.phone}.`;
 ---
 
-<BaseLayout title={title} description={description} schema={[serviceSchema, breadcrumbSchema]}>
+<BaseLayout title={title} description={description} schema={[serviceSchema, breadcrumbSchema]} preloadImage={service.image}>
   <section class="bg-[#1C1D17] text-[#EEEDEA] py-20 lg:py-32 relative overflow-hidden">
     <div class="absolute inset-0 opacity-30">
       <img
@@ -60,6 +60,8 @@ const description = `${service.hook} Free estimates. ${site.credentials.insuranc
         class="w-full h-full object-cover"
         width="1600"
         height="900"
+        fetchpriority="high"
+        decoding="async"
       />
       <div class="absolute inset-0 bg-[#1C1D17]/80"></div>
     </div>

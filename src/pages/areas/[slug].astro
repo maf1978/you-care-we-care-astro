@@ -51,7 +51,7 @@ const title = `Tree Removal in ${area.city}, FL | ${site.shortName}`;
 const description = `${area.hook} Free estimates, 24/7 emergency response. Serving ${area.neighborhoods.join(', ')}.`;
 ---
 
-<BaseLayout title={title} description={description} schema={breadcrumbSchema}>
+<BaseLayout title={title} description={description} schema={breadcrumbSchema} preloadImage={site.heroImage}>
   <section class="bg-[#1C1D17] text-[#EEEDEA] py-20 lg:py-32 relative overflow-hidden">
     <div class="absolute inset-0 opacity-30">
       <img
@@ -60,6 +60,8 @@ const description = `${area.hook} Free estimates, 24/7 emergency response. Servi
         class="w-full h-full object-cover"
         width="1600"
         height="900"
+        fetchpriority="high"
+        decoding="async"
       />
       <div class="absolute inset-0 bg-[#1C1D17]/80"></div>
     </div>

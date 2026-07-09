@@ -1,4 +1,8 @@
 ---
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/inter/700.css';
+import '@fontsource/anton/400.css';
 import '../styles/global.css';
 import { site } from '../data/site';
 import Navbar from '../components/layout/Navbar.astro';
@@ -12,6 +16,7 @@ interface Props {
   ogImage?: string;
   schema?: Record<string, unknown> | Record<string, unknown>[];
   noindex?: boolean;
+  preloadImage?: string;
 }
 
 const {
@@ -21,11 +26,16 @@ const {
   ogImage = site.ogImage,
   schema,
   noindex = false,
+  preloadImage,
 } = Astro.props;
 
 const canonicalUrl = canonical
   ? new URL(canonical, site.url).toString()
   : new URL(Astro.url.pathname, site.url).toString();
+
+const ogImageUrl = ogImage.startsWith('http')
+  ? ogImage
+  : new URL(ogImage, site.url).toString();
 
 const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
 ---
@@ -41,23 +51,21 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
     {noindex && <meta name="robots" content="noindex,nofollow" />}
     <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    {
+      preloadImage && (
+        <link rel="preload" as="image" href={preloadImage} type="image/webp" fetchpriority="high" />
+      )
+    }
 
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content={ogImage} />
+    <meta property="og:image" content={ogImageUrl} />
     <meta property="og:url" content={canonicalUrl} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image" content={ogImageUrl} />
 
     {
       schemas.map((item) => (
